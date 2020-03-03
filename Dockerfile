@@ -36,9 +36,9 @@ FROM openjdk:8-jre-slim
 WORKDIR /helidon
 
 # Copy the binary built in the 1st stage
-COPY --from=build /helidon/target/helidon-workshop.jar ./
+COPY --from=build /helidon/target/oke-atp-helidon.jar ./
 COPY --from=build /helidon/target/libs ./libs
 
-CMD ["java", "-jar", "helidon-workshop.jar"]
+CMD ["java", "-jar", "oke-atp-helidon.jar"]
 
 EXPOSE 8080

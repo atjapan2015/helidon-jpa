@@ -17,13 +17,13 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: helidon-workshop
+  name: oke-atp-helidon
   labels:
-    app: helidon-workshop
+    app: oke-atp-helidon
 spec:
   type: NodePort
   selector:
-    app: helidon-workshop
+    app: oke-atp-helidon
   ports:
   - port: 8080
     targetPort: 8080
@@ -32,18 +32,18 @@ spec:
 kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
-  name: helidon-workshop
+  name: oke-atp-helidon
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: helidon-workshop
+        app: oke-atp-helidon
         version: v1
     spec:
       containers:
-      - name: helidon-workshop
-        image: helidon-workshop
+      - name: oke-atp-helidon
+        image: oke-atp-helidon
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080

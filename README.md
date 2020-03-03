@@ -7,7 +7,7 @@ This example implements a simple Hello World REST service using MicroProfile.
 With JDK8+
 ```bash
 mvn package
-java -jar target/helidon-workshop.jar
+java -jar target/oke-atp-helidon.jar
 ```
 
 ## Exercise the application
@@ -47,13 +47,13 @@ curl -H 'Accept: application/json' -X GET http://localhost:8080/metrics
 ## Build the Docker Image
 
 ```
-docker build -t helidon-workshop .
+docker build -t oke-atp-helidon .
 ```
 
 ## Start the application with Docker
 
 ```
-docker run --rm -p 8080:8080 helidon-workshop:latest
+docker run --rm -p 8080:8080 oke-atp-helidon:latest
 ```
 
 Exercise the application as described above
@@ -64,5 +64,5 @@ Exercise the application as described above
 kubectl cluster-info                         # Verify which cluster
 kubectl get pods                             # Verify connectivity to cluster
 kubectl create -f app.yaml               # Deploy application
-kubectl get service helidon-workshop  # Verify deployed service
+kubectl get service oke-atp-helidon  # Verify deployed service
 ```

@@ -28,7 +28,7 @@
         <relativePath/>
     </parent>
     <groupId>io.helidon.workshop</groupId>
-    <artifactId>helidon-workshop</artifactId>
+    <artifactId>oke-atp-helidon</artifactId>
     <name>${project.artifactId}</name>
 
     <properties>
