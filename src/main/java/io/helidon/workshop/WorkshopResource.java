@@ -55,14 +55,14 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
  */
 @Path("/greet")
 @RequestScoped
-public class GreetResource {
+public class WorkshopResource {
 
     private static final JsonBuilderFactory JSON = Json.createBuilderFactory(Collections.emptyMap());
 
     /**
      * The greeting message provider.
      */
-    private final GreetingProvider greetingProvider;
+    private final WorkshopProvider greetingProvider;
 
     /**
      * Using constructor injection to get a configuration property.
@@ -71,7 +71,7 @@ public class GreetResource {
      * @param greetingConfig the configured greeting message
      */
     @Inject
-    public GreetResource(GreetingProvider greetingConfig) {
+    public WorkshopResource(WorkshopProvider greetingConfig) {
         this.greetingProvider = greetingConfig;
     }
 
