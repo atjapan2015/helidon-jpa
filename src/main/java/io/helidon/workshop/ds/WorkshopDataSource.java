@@ -6,16 +6,16 @@ import javax.inject.Named;
 import javax.sql.DataSource;
 
 @ApplicationScoped
-public class WorkshopDS {
+public class WorkshopDataSource {
 
     @Inject
-    @Named("workshop")
-    private DataSource workshopDataSource;
+    @Named("workshopDS")
+    private DataSource workshopDS;
 
     private final DataSource ds;
 
     @Inject
-    public WorkshopDS(@Named("workshop") DataSource ds) {
+    public WorkshopDS(@Named("workshopDS") DataSource ds) {
         super();
         this.ds = ds;
     }
