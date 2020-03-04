@@ -16,7 +16,10 @@
 
 package io.helidon.workshop;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -32,6 +35,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import io.helidon.workshop.entity.Items;
+import io.helidon.workshop.service.WorkshopService;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
@@ -41,19 +46,19 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 
 /**
  * A simple JAX-RS resource to greet you. Examples:
- *
+ * <p>
  * Get default greeting message:
  * curl -X GET http://localhost:8080/greet
- *
+ * <p>
  * Get greeting message for Joe:
  * curl -X GET http://localhost:8080/greet/Joe
- *
+ * <p>
  * Change greeting
  * curl -X PUT -H "Content-Type: application/json" -d '{"greeting" : "Howdy"}' http://localhost:8080/greet/greeting
- *
+ * <p>
  * The message is returned as a JSON object.
  */
-@Path("/greet")
+@Path("/workshop")
 @RequestScoped
 public class WorkshopResource {
 
@@ -63,6 +68,9 @@ public class WorkshopResource {
      * The greeting message provider.
      */
     private final WorkshopProvider greetingProvider;
+
+    @Inject
+    WorkshopService workshopService;
 
     /**
      * Using constructor injection to get a configuration property.
@@ -133,6 +141,29 @@ public class WorkshopResource {
 
         greetingProvider.setMessage(newGreeting);
         return Response.status(Response.Status.NO_CONTENT).build();
+    }
+
+
+    /**
+     * Return a items list using the name that was provided.
+     *
+     * @param
+     * @return {@link JsonObject}
+     */
+    @SuppressWarnings("checkstyle:designforextension")
+    @Path("/items")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Items> getMessage() {
+
+        List<Items> items = new ArrayList<>();
+        try {
+            items = workshopService.selectAllItems();
+        } catch (SQLException e) {
+            // do nothing as it's a workshop
+            e.printStackTrace();
+        }
+        return items;
     }
 
     private JsonObject createResponse(String who) {

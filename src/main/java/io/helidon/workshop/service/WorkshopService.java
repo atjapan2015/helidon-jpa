@@ -1,8 +1,11 @@
 package io.helidon.workshop.service;
 
+import io.helidon.workshop.entity.Items;
+
 import java.sql.SQLException;
+import java.util.List;
 
 public interface WorkshopService {
 
-    void doSomething() throws SQLException;
+    List<Items> selectAllItems() throws SQLException;
 }
