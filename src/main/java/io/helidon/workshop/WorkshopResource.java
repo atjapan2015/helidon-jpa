@@ -26,6 +26,8 @@ import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
+import javax.persistence.Query;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -36,6 +38,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import io.helidon.workshop.entity.Items;
+import io.helidon.workshop.jpa.JPAItems;
 import io.helidon.workshop.service.WorkshopService;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -154,7 +157,7 @@ public class WorkshopResource {
     @Path("/items")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Items> getMessage() {
+    public List<Items> getItems() {
 
         List<Items> items = new ArrayList<>();
         try {
@@ -163,6 +166,24 @@ public class WorkshopResource {
             // do nothing as it's a workshop
             e.printStackTrace();
         }
+        return items;
+    }
+
+    /**
+     * Return a items list using the name that was provided.
+     *
+     * @param
+     * @return {@link JsonObject}
+     */
+    @SuppressWarnings("checkstyle:designforextension")
+    @Path("/jpaitems")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<JPAItems> getJPAItems() {
+
+        List<JPAItems> items = new ArrayList<>();
+        items = workshopService.selectAllJPAItems();
+
         return items;
     }
 

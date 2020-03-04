@@ -9,13 +9,13 @@ import javax.sql.DataSource;
 public class WorkshopDataSource {
 
     @Inject
-    @Named("workshopDS")
-    private DataSource workshopDS;
+    @Named("workshopDataSource")
+    private DataSource workshopDataSource;
 
     private final DataSource ds;
 
     @Inject
-    public WorkshopDS(@Named("workshopDS") DataSource ds) {
+    public WorkshopDataSource(@Named("workshopDataSource") DataSource ds) {
         super();
         this.ds = ds;
     }

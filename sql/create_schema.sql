@@ -163,6 +163,7 @@ Insert into USERS (USER_ID,USER_NAME,USER_PASSWORD,USER_EMAIL,USER_GRAVATAR) val
   ALTER TABLE "COMMENTS" MODIFY ("COMMENT_BY" NOT NULL ENABLE);
   ALTER TABLE "COMMENTS" MODIFY ("ITEM_ID" NOT NULL ENABLE);
   ALTER TABLE "COMMENTS" MODIFY ("COMMENT_ID" NOT NULL ENABLE);
+  ALTER TABLE "COMMENTS" ADD CONSTRAINT "COMMENTS_PK" PRIMARY KEY ("COMMENT_ID");
 --------------------------------------------------------
 --  Constraints for Table ITEMS
 --------------------------------------------------------
@@ -172,6 +173,7 @@ Insert into USERS (USER_ID,USER_NAME,USER_PASSWORD,USER_EMAIL,USER_GRAVATAR) val
   ALTER TABLE "ITEMS" MODIFY ("ITEM_DESC" NOT NULL ENABLE);
   ALTER TABLE "ITEMS" MODIFY ("ITEM_TITLE" NOT NULL ENABLE);
   ALTER TABLE "ITEMS" MODIFY ("ITEM_ID" NOT NULL ENABLE);
+  ALTER TABLE "ITEMS" ADD CONSTRAINT "ITEMS_PK" PRIMARY KEY ("ITEM_ID");
 --------------------------------------------------------
 --  Constraints for Table OFFERS
 --------------------------------------------------------
@@ -180,6 +182,7 @@ Insert into USERS (USER_ID,USER_NAME,USER_PASSWORD,USER_EMAIL,USER_GRAVATAR) val
   ALTER TABLE "OFFERS" MODIFY ("OFFER_BY" NOT NULL ENABLE);
   ALTER TABLE "OFFERS" MODIFY ("ITEM_ID" NOT NULL ENABLE);
   ALTER TABLE "OFFERS" MODIFY ("OFFER_ID" NOT NULL ENABLE);
+  ALTER TABLE "OFFERS" ADD CONSTRAINT "OFFERS_PK" PRIMARY KEY ("OFFER_ID");
 --------------------------------------------------------
 --  Constraints for Table USERS
 --------------------------------------------------------
@@ -187,6 +190,7 @@ Insert into USERS (USER_ID,USER_NAME,USER_PASSWORD,USER_EMAIL,USER_GRAVATAR) val
   ALTER TABLE "USERS" MODIFY ("USER_EMAIL" NOT NULL ENABLE);
   ALTER TABLE "USERS" MODIFY ("USER_NAME" NOT NULL ENABLE);
   ALTER TABLE "USERS" MODIFY ("USER_ID" NOT NULL ENABLE);
+  ALTER TABLE "USERS" ADD CONSTRAINT "USERS_PK" PRIMARY KEY ("USER_ID");
 --------------------------------------------------------
 --  DDL for Trigger COMMENTS_COMMENT_ID_TRIGGER
 --------------------------------------------------------
