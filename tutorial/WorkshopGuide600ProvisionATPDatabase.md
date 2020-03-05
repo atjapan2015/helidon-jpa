@@ -22,27 +22,23 @@ Service Broker、Service CatalogおよびOCI Service Brokerについて、説明
 
 ### 0. 事前準備
 
-oke-atp-microservices-handsonディレクトリに移動して、直接``kubectl``でワークショップで使用するOKEクラスタにアクセスするために、workshop_cluster_kubeconfigを$HOME/.kube/configにコピーします。
+oke-atp-helidon-handsonディレクトリに移動して、直接``kubectl``でワークショップで使用するOKEクラスタにアクセスするために、workshop_cluster_kubeconfigを$HOME/.kube/configにコピーします。
 
-```
-mkdir $HOME/.kube
-```
-
-```
+```sh
 cp ./terraform_oke/workshop_cluster_kubeconfig $HOME/.kube/config
 ```
 
 ``kubectl get nodes``で確認します。
 
-```
+```sh
 kubectl get nodes
 ```
 
 OKEクラスタのnodes情報が出力されます。
 
 ```
-NAME        STATUS   ROLES   AGE    VERSION
-10.0.24.2   Ready    node    5m   v1.13.5
+NAME        STATUS   ROLES   AGE   VERSION
+10.0.24.2   Ready    node    43m   v1.14.8
 ```
 
 これで、事前準備は完了しました。
@@ -51,40 +47,40 @@ NAME        STATUS   ROLES   AGE    VERSION
 
 helmをインストールします。
 
-```
+```sh
 curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
 ```
 
 ``helm version``でhelmバージョン情報を確認します。（$HOME/.kube/configでkubeconfigを設定した場合、--kubeconfigを指定する必要はありません。これ以降は同様です。）
 
-```
+```sh
 helm version
 ```
 
 もしクライアントバージョン（たとえば、v2.16.1）とサーバーバージョン（たとえば、v2.14+unreleased）が違う場合、サーバーバージョンをアップグレードする必要です。同じ場合、アップグレードする必要がありません。
 
 ```
-Client: &version.Version{SemVer:"v2.16.1", GitCommit:"bbdfe5e7803a12bbdf97e94cd847859890cf4050", GitTreeState:"clean"}
+Client: &version.Version{SemVer:"v2.16.3", GitCommit:"1ee0254c86d4ed6887327dabed7aa7da29d7eb0d", GitTreeState:"clean"}
 Server: &version.Version{SemVer:"v2.14+unreleased", GitCommit:"", GitTreeState:"clean"}
 ```
 
 helmのサーバーバージョンをアップグレードします。
 
-```
+```sh
 helm init --upgrade
 ```
 
 再度、``helm version``でhelmバージョン情報を確認します。
 
-```
-helm version 
+```sh
+helm version
 ```
 
 クライアントバージョン（たとえば、v2.16.1）とサーバーバージョン（たとえば、v2.16.1）が同じであることを確認します。
 
 ```
-Client: &version.Version{SemVer:"v2.16.1", GitCommit:"bbdfe5e7803a12bbdf97e94cd847859890cf4050", GitTreeState:"clean"}
-Server: &version.Version{SemVer:"v2.16.1", GitCommit:"bbdfe5e7803a12bbdf97e94cd847859890cf4050", GitTreeState:"clean"}
+Client: &version.Version{SemVer:"v2.16.3", GitCommit:"1ee0254c86d4ed6887327dabed7aa7da29d7eb0d", GitTreeState:"clean"}
+Server: &version.Version{SemVer:"v2.16.3", GitCommit:"1ee0254c86d4ed6887327dabed7aa7da29d7eb0d", GitTreeState:"clean"}
 ```
 
 これで、helmのインストールは完了しました。
@@ -93,13 +89,13 @@ Server: &version.Version{SemVer:"v2.16.1", GitCommit:"bbdfe5e7803a12bbdf97e94cd8
 
 Service Catalogのリポジトリを追加します。
 
-```
+```sh
 helm repo add svc-cat https://svc-catalog-charts.storage.googleapis.com
 ```
 
 Service Catalogをインストールします。
 
-```
+```sh
 helm install svc-cat/catalog --set controllerManager.verbosity="4" --timeout 300 --name catalog
 ```
 
@@ -107,21 +103,21 @@ svcatツールをインストールします。
 
 - svcatは、Service Catalogリソースと対話するためのコマンドラインインターフェイス（CLI）です。
 
-```
+```sh
 curl -sLO https://download.svcat.sh/cli/latest/linux/amd64/svcat
 ```
 
-```
+```sh
 chmod +x ./svcat
 ```
 
-```
+```sh
 sudo mv ./svcat /usr/local/bin/
 ```
 
 svcatツールのクライアントバージョン情報を確認します。
 
-```
+```sh
 svcat version --client
 ```
 
@@ -135,15 +131,15 @@ Client Version: v0.3.0-beta.2
 
 ### 3. OCI Service Brokerをインストールする
 
-oke-atp-microservices-handsonディレクトリに移動して、OCI Service Brokerリポジトリのクローンを実行します。
+oke-atp-helidon-handsonディレクトリに移動して、OCI Service Brokerリポジトリのクローンを実行します。
 
-```
+```sh
 git clone https://github.com/oracle/oci-service-broker.git
 ```
 
 ``oci-service-broker``ディレクトリに移動します。
 
-```
+```sh
 cd oci-service-broker
 ```
 
@@ -171,7 +167,7 @@ private_key_path|API Signingキーのローカルパス
 
 OCI Service Brokerをインストールします。
 
-```
+```sh
 helm install charts/oci-service-broker/. --name oci-service-broker \
 	--set ociCredentials.secretName=ocicredentials \
 	--set storage.etcd.useEmbedded=true \
@@ -180,19 +176,19 @@ helm install charts/oci-service-broker/. --name oci-service-broker \
 
 OCI Service Brokerの登録先のnamespaceを設定します。たとえば、ワークショップではdefaultのnamespaceに登録します。
 
-```
+```sh
 sed -i -e 's/<NAMESPACE_OF_OCI_SERVICE_BROKER>/default/g' ./charts/oci-service-broker/samples/oci-service-broker.yaml
 ```
 
 OCI Service Brokerの登録を実行します。
 
-```
+```sh
 kubectl create -f ./charts/oci-service-broker/samples/oci-service-broker.yaml
 ```
 
 ``brokers``の情報を確認します。
 
-```
+```sh
 svcat get brokers
 ```
 
@@ -206,7 +202,7 @@ svcat get brokers
 
 ``classes``の情報を確認します。
 
-```
+```sh
 svcat get classes
 ```
 
@@ -225,7 +221,7 @@ svcat get classes
 
 ``plans``の情報を確認します。
 
-```
+```sh
 svcat get plans
 ```
 
@@ -252,31 +248,31 @@ svcat get plans
 
 （ocid1.compartment.oc1..aaaaaaaaxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxを各自のコンパートメントへ変更してください。）
 
-```
+```sh
 sed -i -e 's/CHANGE_COMPARTMENT_OCID_HERE/ocid1.compartment.oc1..aaaaaaaaxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/g' ./charts/oci-service-broker/samples/atp/atp-instance-plain.yaml
 ```
 
 サンプルファイルにあるATPデータベースの名称を更新します。（たとえば、tfOKEATPDB）
 
-```
-sed -i -e 's/osbdemo/tfOKEATPDB/g' ./charts/oci-service-broker/samples/atp/atp-instance-plain.yaml
+```sh
+sed -i -e 's/osbdemo/WORKSHOPATP/g' ./charts/oci-service-broker/samples/atp/atp-instance-plain.yaml
 ```
 
-サンプルファイルにあるATPデータベースのパスワードを更新します。（たとえば、TFWorkshop__2000）
+サンプルファイルにあるATPデータベースのパスワードを更新します。（たとえば、WOrkshop__8080）
 
-```
-sed -i -e 's/s123456789S@/TFWorkshop__2000/g' ./charts/oci-service-broker/samples/atp/atp-instance-plain.yaml
+```sh
+sed -i -e 's/s123456789S@/WOrkshop__8080/g' ./charts/oci-service-broker/samples/atp/atp-instance-plain.yaml
 ```
 
 ATPデータベースを取得します。
 
-```
+```sh
 kubectl create -f ./charts/oci-service-broker/samples/atp/atp-instance-plain.yaml
 ```
 
 取得状況を確認します。
 
-```
+```sh
 svcat get instances --all-namespaces
 ```
 
@@ -298,13 +294,13 @@ svcat get instances --all-namespaces
 
 ATPデータベースのBindingを行います。
 
-```
+```sh
 kubectl create -f ./charts/oci-service-broker/samples/atp/atp-binding-plain.yaml
 ```
 
 ``bindings``の情報を確認します。
 
-```
+```sh
 svcat get bindings
 ```
 
@@ -318,31 +314,31 @@ svcat get bindings
 
 ``bindings``はATPデータベースに接続用のWalletファイルが含まれています。``kubectl get``で確認できます。
 
-```
+```sh
 kubectl get secrets atp-demo-binding -o yaml
 ```
 
 ATPデータベースのパスワードが格納されるsecretを作成します。
 
-たとえば、"TFWorkshop__2000"を設定します。``base64``で暗号化にします。
+たとえば、"WOrkshop__8080"を設定します。``base64``で暗号化にします。`V09ya3Nob3BfXzgwODAK`が出力されます。
 
-```
-echo "TFWorkshop__2000" | base64
+```sh
+echo "WOrkshop__8080" | base64
 ```
 
 サンプルファイルにあるプレーンテキストと暗号化テキスト両方を更新します。
 
-```
-sed -i -e 's/s123456789S@/TFWorkshop__2000/g' ./charts/oci-service-broker/samples/atp/atp-demo-secret.yaml
+```sh
+sed -i -e 's/s123456789S@/WOrkshop__8080/g' ./charts/oci-service-broker/samples/atp/atp-demo-secret.yaml
 ```
 
-```
-sed -i -e 's/czEyMzQ1Njc4OVNACg==/VEZXb3Jrc2hvcF9fMjAwMAo=/g' ./charts/oci-service-broker/samples/atp/atp-demo-secret.yaml
+```sh
+sed -i -e 's/czEyMzQ1Njc4OVNACg==/V09ya3Nob3BfXzgwODAK/g' ./charts/oci-service-broker/samples/atp/atp-demo-secret.yaml
 ```
 
 secretを作成します。
 
-```
+```sh
 kubectl create -f ./charts/oci-service-broker/samples/atp/atp-demo-secret.yaml
 ```
 
@@ -354,7 +350,7 @@ ATPデータベースに接続するのは、Walletファイルが必要です�
 
 ``fetch_wallet.sh``を実行して、Walletファイルを取得します。
 
-```
+```sh
 cd ..
 ```
 
@@ -369,14 +365,14 @@ chmod +x fetch_wallet.sh
 Walletファイル"Wallet_tfOKEATPDB.zip"が作成されます。
 
 ```
-git add Wallet_tfOKEATPDB.zip
+git add wallet.zip
 ```
 
 ```
 git commit -m "Walletファイルの追加" 
 ```
 
-作成されたファイルWallet_tfOKEATPDB.zipを使用して、ATPデータベースへ接続できます。
+作成されたファイル`wallet.zip`を使用して、ATPデータベースへ接続できます。
 
 DevCSのビルド機能でこのファイルを使用して、データを導入し確認できます。次のステップで説明します。
 

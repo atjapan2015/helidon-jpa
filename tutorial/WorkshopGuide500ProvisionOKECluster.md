@@ -15,7 +15,7 @@ Terraformを使用したOKEクラスタの作成
 
 ### 1. 新しいターミナルウィンドウを開き、git repositoryフォルダーのterraform_okeフォルダーに移動する
 
-```
+```sh
 cd terraform_oke
 ```
 
@@ -25,10 +25,10 @@ OKEクラスタの構成を、Terraformのパラメータファイル``terraform
 
 ベースとなるパラメータファイルをコピーして、これを編集していきます。[ステップ2](WorkshopGuide200GatherInformation.md)で収集した情報を使用して、OCIDなどの情報を入力します。
 
+```sh
+cp terraform.tfvars.example terraform.tfvars
 ```
-cp terraform.example.tfvars terraform.tfvars
-```
-```
+```sh
 vi terraform.tfvars
 ```
 
@@ -72,6 +72,23 @@ region = "ap-tokyo-1"
 
 ### 4．作成されたファイルworkshop_cluster_kubeconfigを使用して、kubectlコマンドでOKEにアクセスする
 
+OKEクラスタにアクセスするために、OCIプロファイルを設定する必要があります。
+
+```sh
+oci setup config
+```
+
+下記情報を順次に記入します。
+
+1. Enter a location for your config [/home/opc/.oci/config]:  `Enter`
+2. Enter a user OCID: ユーザーOCID。たとえば、`ocid1.user.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
+3. Enter a tenancy OCID: テナントOCID。たとえば、`ocid1.tenancy.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
+4. Enter a region: リージョン識別子。たとえば、`ap-tokyo-1`
+5. Do you want to generate a new RSA key pair? (If you decline you will be asked to supply the path to an existing key.) [Y/n]: `n`
+6. Enter the location of your private key file: `/home/opc/.oci/oci_api_key.pem`
+
+
+
 kubectlコマンドを使用してOKEクラスタが作成されているか検証します。
 
 ```
@@ -81,8 +98,8 @@ kubectl get nodes --kubeconfig=workshop_cluster_kubeconfig
 数分待って、以下のような内容が表示されます。
 
 ```
-NAME        STATUS   ROLES   AGE    VERSION
-10.0.24.2   Ready    node    5m   v1.13.5
+NAME        STATUS   ROLES   AGE   VERSION
+10.0.24.2   Ready    node     3m   v1.14.8
 ```
 
 これで、OKEクラスタの作成は完了しました。
@@ -90,7 +107,7 @@ NAME        STATUS   ROLES   AGE    VERSION
 ##### 補足：ブラウザからkubeconfigを取得する方法
 
 OKEクラスタへアプリケーションをデプロイするためにはkubeconfigファイルが必要です。kubeconfigファイルは先ほどTerraformで作成した`workshop_cluster_kubeconfig`ファイルを利用する以外に、ブラウザからもkubeconfigを取得することが可能です。
-   
+
 OCIコンソール右上のハンバーガーメニューを展開し、「開発者サービス」⇒「コンテナ・クラスタ(OKE)」に移動して、コンパートメントを選択し、次は該当OKEクラスタを選択して、「Kubeconfigへのアクセス」ボタンをクリックします。
 
 赤枠で囲まれたコマンドをメモします。「閉じる」ボタンをクリックします。

@@ -60,7 +60,6 @@ API Signingキーを持っていない場合、[API Signingキーの作成方法
 
 パスフレーズなしでAPI SigningのPrivateキーを生成するには、
 ```
-mkdir ~/.oci
 openssl genrsa -out ~/.oci/oci_api_key.pem 2048
 chmod go-rwx ~/.oci/oci_api_key.pem
 ```

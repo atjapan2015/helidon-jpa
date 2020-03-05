@@ -13,18 +13,18 @@ DevCSのビルドエンジンを使用して、データベースに必要なオ
 
 DevCSで、「ビルド」に移動し、「＋ジョブを作成」ボタンをクリックします。
 
-![](images/1300.jpg "")
+![](images/1300.jpg)
 
 下記項目を入力し、「作成」ボタンをクリックします。
 
-+ 名前：任意（例えば、CreateDBObjects）
-+ テンプレート：OKE
++ 名前：任意（例えば、`CreateDBObjects`）
++ テンプレート：`OKE`
 
-![](images/1310.jpg "")
+![](images/1310.jpg)
 
 gitソースリポジトリを追加します。「Git追加」から「git」を選択します。
 
-![](images/1320.jpg "")
+![](images/1320.jpg)
 
 下記項目を入力します。
 
@@ -32,45 +32,45 @@ gitソースリポジトリを追加します。「Git追加」から「git」�
 
 次のステップを追加します。「ステップ」をクリックします。
 
-![](images/1330.jpg "")
+![](images/1330.jpg)
 
 「ステップの追加」から「SQLcl」を選択します。
 
-![](images/1340.jpg "")
+![](images/1340.jpg)
 
 下記項目を入力して、「保存」ボタンをクリックします。
 
-+ ユーザー名：ATPデータベースのユーザー名（例えば、admin）
-+ パスワード：ATPデータベースのパスワード（例えば、TFWorkshop__2000）
-+ 資格証明ファイル：ウォレットファイルのパス（例えば、./Wallet_tfOKEATPDB.zip）
-+ 接続文字列：データベースの名前＆"_high"/"_low"などで構成される接続文字列（例えば、tfOKEATPDB_HIGH）
-+ SQLファイル・パス：作成スクリプトを含むsqlファイルのパス（例えば、aone/create_schema.sql）
++ ユーザー名：ATPデータベースのユーザー名（例えば、`admin`）
++ パスワード：ATPデータベースのパスワード（例えば、`WOrkshop__8080`）
++ 資格証明ファイル：ウォレットファイルのパス（例えば、`./wallet.zip`）
++ 接続文字列：データベースの名前＆`_high`/`_low`などで構成される接続文字列（例えば、`workshopatp_high`）
++ SQLファイル・パス：作成スクリプトを含むsqlファイルのパス（例えば、`sql/create_schema.sql`）
 
-![](images/1350.jpg "")
+![](images/1350.jpg)
 
 「今すぐビルド」ボタンをクリックします。
 
 これが環境内で最初のビルドジョブである場合、ビルドエンジンの起動が完了するまでに最大10分かかる場合があります。
 
-![](images/1360.jpg "")
+![](images/1360.jpg)
 
 ビルド途中または完了、「ビルド・ログ」アイコンをクリックして、ログを確認できます。
 
-![](images/1370.jpg "")
+![](images/1370.jpg)
 
 成功すると、ログの最後に"Status:DONE Result:SUCCESSFUL"と表示されます。また、SQL実行の詳細な内容を確認できます。
 
-![](images/1380.jpg "")
+![image-20200305192922351](images/1380.jpg)
 
 ビルドマシンのログも確認できます。
 
 DevCSで、「組織」⇒「仮想マシンのビルド」⇒「VMのビルド」で使用したテンプレートを選択して、右側のメニューアイコンから「ログの表示」を選択します。
 
-![](images/1390.jpg "")
+![](images/1390.jpg)
 
 仮想マシンのログが表示されます。
 
-![](images/1400.jpg "")
+![](images/1400.jpg)
 
 これで、データの導入は完了しました。
 
@@ -80,28 +80,28 @@ SQL Developer Webを使用してデータベースに接続し、オブジェク
 
 OCIのATPデータベースインスタンスの詳細⇒「サービス・コンソール」ボタンをクリックします。
 
-![](images/1410.jpg "")
+![](images/1410.jpg)
 
 「Deployment」をクリックします。
 
-![](images/1420.jpg "")
+![](images/1420.jpg)
 
 「SQL Developer Web」をクリックします。
 
-![](images/1430.jpg "")
+![image-20200305193537142](images/1430.jpg)
 
 下記項目を入力し、「Sign in」をクリックします。
 
-+ Username：ATPデータベースのユーザー名、例えば、admin
-+ Password：ATPデータベースのパスワード、例えば、TFWorkshop__2000
++ Username：ATPデータベースのユーザー名、例えば、`admin`
++ Password：ATPデータベースのパスワード、例えば、`WOrkshop__8080`
 
-![](images/1440.jpg "")
+![image-20200305193652476](images/1440.jpg)
 
-SQL Developer WebのWorksheetで`select * from ITEMS`を入力して、緑色の矢印「ステートメントの実行」アイコンをクリックします。
+SQL Developer Webのワークシートで`select * from ITEMS`を入力して、緑色の矢印「ステートメントの実行」アイコンをクリックします。
 
 ITEMSテーブルの結果が表示されます。
 
-![](images/1450.jpg "")
+![](images/1450.jpg)
 
 これで、データの導入および検証は完了しました。
 

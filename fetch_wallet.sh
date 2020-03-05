@@ -16,8 +16,8 @@ kubectl get secret atp-demo-binding -o jsonpath="{['data']['tnsnames\.ora']}" | 
 echo "fetch truststore.jks ..."
 kubectl get secret atp-demo-binding -o jsonpath="{['data']['truststore\.jks']}" | base64 -d | base64 -d > truststore.jks
 
-echo "create Wallet_tfOKEATPDB.zip"
-zip Wallet_tfOKEATPDB.zip cwallet.sso ewallet.p12 keystore.jks ojdbc.properties sqlnet.ora tnsnames.ora truststore.jks
+echo "create wallet.zip"
+zip wallet.zip cwallet.sso ewallet.p12 keystore.jks ojdbc.properties sqlnet.ora tnsnames.ora truststore.jks
 rm cwallet.sso ewallet.p12 keystore.jks ojdbc.properties sqlnet.ora tnsnames.ora truststore.jks
 
 echo "complete!"
