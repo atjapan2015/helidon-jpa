@@ -45,13 +45,13 @@ DevCSでプロジェクトとリポジトリの作成
 
 インポートが完了すると、既存のリポジトリのファイルがインポートされます。
 
-![](images/1140.jpg "")
+![](images/1140.jpg)
 
 作成したリポジトリをご利用のマシンへコピーします。
 
 DevCSで「Git」に移動して、右側の「クローン」を選択し、"HTTPSでクローニングします"の「コピー」アイコンをクリックします。
 
-![](images/1145.jpg "")
+![](images/1145.jpg)
 
 ご利用のマシンの作業フォルダに移動して、クローンを実行します。
 
@@ -59,21 +59,6 @@ DevCSで「Git」に移動して、右側の「クローン」を選択し、"HT
 git clone コピーされたURL
 ```
 
-ワークショップで使用するJavaアプリケーションからATPデータベースへ接続するのは、ojdbc8.jarなどのjarファイルが必要です。
-
-[Oracle Database 18c (18.3) JDBC Driver and UCP Downloads](https://www.oracle.com/database/technologies/appdev/jdbc-ucp-183-downloads.html)から下記jarファイルをダウンロードし、oke-atp-microservices-handsonディレクトリ下の`libs`に格納して、gitリポジトリへコミットしてください。
-
-+ ojdbc8.jar
-+ oraclepki.jar
-+ osdt_cert.jar
-+ osdt_core.jar
-
-```
-git add . 
-```
-```
-git commit -m "JDBCドライバの追加" 
-```
 これで、DevCSでプロジェクトとリポジトリの作成は完了しました。
 
 続いて[DevCSでビルド機能（CI/CD）使用の仮想マシンの準備](WorkshopGuide400CreateVirtualMachine.md)に進んでください。
