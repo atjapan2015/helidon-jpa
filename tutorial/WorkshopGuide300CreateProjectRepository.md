@@ -9,24 +9,23 @@ DevCSでプロジェクトとリポジトリの作成
 
 ![](images/1070.jpg "")
 
-下記項目を入力して、「Next」をクリックします。
+下記項目を入力して、「次」をクリックします。
 
-+ 名前：任意（例えば、OKEATPWorkshop）
++ 名前：任意（例えば、Workshop）
 
-![](images/1080.jpg "")
+![](images/1080.jpg)
 
-デフォルトのままにして、「Next」をクリックします。
+デフォルトのままにして、「次」をクリックします。
 
 ![](images/1090.jpg "")
 
+デフォルトのままにして、「終了」をクリックします。
 
-デフォルトのままにして、「Finish」をクリックします。
-
-![](images/1100.jpg "")
+![](images/1100.jpg)
 
 すべてのモジュールがプロビジョンされるまでお待ちください。
 
-![](images/1110.jpg "")
+![](images/1110.jpg)
 
 プロジェクトの作成が完了すると、自動的にこちらの画面に移動されます。
 
@@ -34,11 +33,13 @@ DevCSでプロジェクトとリポジトリの作成
 
 ![](images/1120.jpg "")
 
+![](images/1115.jpg)
+
 下記項目を入力して、「作成」をクリックします。
 
-+ 名前：任意（例えば、oke_atp_workshop）
-+ 説明：任意（例えば、OKE ATP Workshop）
-+ 既存のリポジトリのインポート：https://github.com/oracle-japan/oke-atp-microservices-handson
++ 名前：任意（例えば、`oke-atp-helidon-handson`）
++ 説明：任意（例えば、`OKE ATP Helidon Handson`）
++ 既存のリポジトリのインポート：`https://github.com/oracle-japan/oke-atp-helidon-handson.git`
 
 ![](images/1130.jpg "")
 
