@@ -1,1 +1,1 @@
-# Kubernetes¤ª¤è¤ÓAutonomous Database¤Ç¥¢¥×¥ê¥±©`¥·¥ç¥óé_°k¤òÌåòY
+# KubernetesãŠã‚ˆã³Autonomous Databaseã§ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³é–‹ç™ºã‚’ä½“é¨“
