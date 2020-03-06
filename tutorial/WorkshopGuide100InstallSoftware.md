@@ -165,7 +165,7 @@ chmod +x install_software.sh
 
 成功した場合、git、kubectl、terraformのバージョン情報が正しく表示されます。
 
-最新Terraformのバージョンは0.12.16以上になる場合、下記のようなメッセージが出力されるかもしれません。
+最新Terraformのバージョンは0.12.21以上になる場合、下記のようなメッセージが出力されるかもしれません。
 
 ```
 Your version of Terraform is out of date! The latest version
