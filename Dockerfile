@@ -18,12 +18,13 @@
 FROM maven:3.5.4-jdk-9 as build
 
 WORKDIR /helidon
+RUN mkdir -p /helidon/target/classes
 
 # Create a first layer to cache the "Maven World" in the local repository.
 # Incremental docker builds will always resume after that, unless you update
 # the pom
 ADD pom.xml .
-RUN mkdir -p /helidon/target/classes && mvn package -DskipTests
+RUN mvn package -DskipTests
 
 # Do the Maven build!
 # Incremental docker builds will resume here when you change sources
