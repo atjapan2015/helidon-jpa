@@ -13,7 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
+---
+kind: Secret
+apiVersion: v1
+metadata:
+  name: customized-db-cred
+data:
+  user_name: SEFORFNPTg== # echo -n 'HANDSON' | base64
+  password: V2VsY29tZTEyMzQ1 # echo -n 'Welcome12345' | base64
+---
 kind: Service
 apiVersion: v1
 metadata:
@@ -67,12 +75,12 @@ spec:
         ports:
         - containerPort: 8080
         env:
-        - name: USER_NAME
+        - name: javax.sql.DataSource.workshopDataSource.dataSource.user
           valueFrom:
             secretKeyRef:
               name: customized-db-cred
               key: user_name
-        - name: PASSWORD
+        - name: javax.sql.DataSource.workshopDataSource.dataSource.password
           valueFrom:
             secretKeyRef:
               name: customized-db-cred
@@ -95,4 +103,4 @@ spec:
       # Shared Volume in which initContainer will save the decoded credential files and the db-app container reads.
       - name: creds
         emptyDir: {}
-
+---

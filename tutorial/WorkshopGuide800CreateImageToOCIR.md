@@ -99,11 +99,11 @@ DevCSで「Docker」に移動して、「外部レジストリのリンク」ボ
 
 成功すると、ステータスが![](images/status_success.jpg "")になります。
 
-![](images/1660.jpg "")
+![](images/1660.jpg)
 
-OCIのOCIRに移動すると、okeatpappのイメージがプッシュされたことを確認できます。
+OCIのOCIRに移動すると、`oke-atp-helidon`のイメージがプッシュされたことを確認できます。
 
-![](images/1690.jpg "")
+![](images/1690.jpg)
 
 これで、アプリケーションをイメージに作成して、OCIRへのプッシュは完了しました。
 
