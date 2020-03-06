@@ -30,10 +30,13 @@ spec:
     name: http
 ---
 kind: Deployment
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 metadata:
   name: oke-atp-helidon
 spec:
+  selector:
+    matchLabels:
+      app: oke-atp-helidon
   replicas: 1
   template:
     metadata:
@@ -63,22 +66,17 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
-        env: 
-        # Pass DB ADMIN user name that is part of the secret created by the binding request.
-        - name: spring.datasource.druid.username
+        env:
+        - name: USER_NAME
           valueFrom:
             secretKeyRef:
-              name: atp-demo-binding
+              name: customized-db-cred
               key: user_name
-        # Pass DB ADMIN password. The password is managed by the user and hence not part of the secret created by the binding request.
-        # In this example we read the password form secret atp-user-cred that is required to be created by the user.  
-        - name: spring.datasource.druid.password
+        - name: PASSWORD
           valueFrom:
             secretKeyRef:
-              name: atp-user-cred
+              name: customized-db-cred
               key: password
-        # Pass  Wallet password to enable application to read Oracle wallet. The password is managed by the user and hence not part of the secret created by the binding request.
-        # In this example we read the password form secret atp-user-cred that is required to be created by the user.  
         - name: WALLET_PWD
           valueFrom:
             secretKeyRef:
@@ -97,4 +95,4 @@ spec:
       # Shared Volume in which initContainer will save the decoded credential files and the db-app container reads.
       - name: creds
         emptyDir: {}
- 
+

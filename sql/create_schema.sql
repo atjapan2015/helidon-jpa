@@ -3,10 +3,19 @@
 --------------------------------------------------------
 
 --------------------------------------------------------
+--  DDL for SCHEMA HANDSON
+--------------------------------------------------------
+
+   CREATE USER HANDSON IDENTIFIED BY Welcome12345;
+   alter user HANDSON quota unlimited on DATA;
+   grant connect,resource to HANDSON;
+   ALTER SESSION SET CURRENT_SCHEMA = HANDSON;
+
+--------------------------------------------------------
 --  DDL for Sequence COMMENTS_COMMENT_ID_SEQ
 --------------------------------------------------------
 
-   CREATE SEQUENCE  "COMMENTS_COMMENT_ID_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 121 CACHE 20 NOORDER  NOCYCLE ;
+TE SEQUENCE  "COMMENTS_COMMENT_ID_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 121 CACHE 20 NOORDER  NOCYCLE ;
 --------------------------------------------------------
 --  DDL for Sequence ITEMS_ITEM_ID_SEQ
 --------------------------------------------------------
