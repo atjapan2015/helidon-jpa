@@ -39,7 +39,7 @@
 
 +名称：任意（例如“ oke-atp-helidon-handson”)
 +说明：可选（例如，“ OKE ATP Helidon Handson”)
-+导入现有存储库：`https://gitlab.k8scloud.site/devops_admin/oke-atp-helidon-handson.git`
++导入现有存储库：`https://gitlab.k8scloud.site/devops_oracle/oke-atp-helidon-handson.git`
 
 ![](images/1130.jpg)
 
