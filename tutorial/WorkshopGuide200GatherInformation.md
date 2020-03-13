@@ -1,9 +1,9 @@
-收集研讨会中使用的帐户信息
+收集Workshop中使用的帐户信息
 =====
 
 收集信息(例如一组OCID)以使用OCI
 ------
-进行研讨会需要以下信息。 **请将获得的信息保存在记事本等中，以备后用。 **
+进行Workshop需要以下信息。 **请将获得的信息保存在记事本等中，以备后用。 **
 
 1.租户OCID
 2.对象存储名称空间
@@ -103,7 +103,7 @@ openssl rsa -pubout -outform DER -in〜/ .oci / oci_api_key.pem | openssl md5 -c
 
 输入以下项目，然后单击“生成令牌”按钮。
 
-+说明：可选(例如研讨会令牌)
++说明：可选(例如Workshop令牌)
 
 ![](images/1064.jpg)
 
@@ -111,7 +111,7 @@ openssl rsa -pubout -outform DER -in〜/ .oci / oci_api_key.pem | openssl md5 -c
 
 ![](images/1066.jpg)
 
-现在，您已经收集了该研讨会的帐户信息。
+现在，您已经收集了该Workshop的帐户信息。
 
 然后转到[使用DevCS创建项目和存储库](WorkshopGuide300CreateProjectRepository.md)。
 
