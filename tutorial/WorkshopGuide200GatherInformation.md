@@ -88,7 +88,7 @@ openssl rsa -pubout -in ~/.oci/oci_api_key.pem -out ~/.oci/oci_api_key_public.pe
 
 复制并记下下面的输出。
 ```
-openssl rsa -pubout -outform DER -in〜/ .oci / oci_api_key.pem | openssl md5 -c
+openssl rsa -pubout -outform DER -in ~/.oci/oci_api_key.pem | openssl md5 -c
 ```
 
 #### 8.身份验证令牌
