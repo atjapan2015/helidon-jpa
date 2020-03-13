@@ -157,7 +157,7 @@ echo "Install Complete"
 授予“ install_software.sh”脚本执行权限并执行它。
 
 ```sh
-chmod + x install_software.sh
+chmod +x install_software.sh
 ```
 ```sh
 ./install_software.sh
