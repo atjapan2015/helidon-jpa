@@ -1,98 +1,98 @@
-必要なソフトウェアのインストール
+安装所需的软件
 ======
 
-このワークショップではクライアント端末に以下のソフトウェアが必要となります。
-公式サイトの手順に従い、ご利用の端末にあったソフトウェアをインストールしてください。
+该研讨会需要在客户端上使用以下软件。
+请按照官方网站上的说明进行操作，然后为您的设备安装软件。
 
-- [kubectl](https://kubernetes.io/ja/docs/tasks/tools/install-kubectl/) : OKE（Kubernetes）クラスタの操作に使用
-- [git](https://git-scm.com/book/ja/v2/%E4%BD%BF%E3%81%84%E5%A7%8B%E3%82%81%E3%82%8B-Git%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB) : DevCSリポジトリ（Gitリポジトリ）のクローン、ファイルの更新に使用
-- [terraform](https://www.terraform.io/downloads.html) ： OKEクラスタとATPの作成に使用
+- [kubectl](https://kubernetes.io/ja/docs/tasks/tools/install-kubectl/) : 用于OKE(Kubernetes)集群操作
+- [git](https://git-scm.com/book/ja/v2/%E4%BD%BF%E3%81%84%E5%A7%8B%E3%82%81%E3%82%8B-Git%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB) : DevCS存储库( Git存储库)，用于更新文件
+- [terraform](https://www.terraform.io/downloads.html) ： 用于创建OKE集群和ATP
 
-以下の手順ではOCIのコンピュートインスタンス（Oracle Linux）を取得し、上記ソフトウェアをインストールする手順を記載します。この手順が不要な方は[ワークショップで利用するアカウント情報の収集](WorkshopGuide200GatherInformation.md)に進んでください。
+以下过程描述了如何获取OCI计算实例(Oracle Linux)和安装上述软件。如果不需要此过程，请转到[收集用于研讨会的帐户信息](WorkshopGuide200GatherInformation.md)
 
-OCIのコンピュートインスタンスの取得
+获取OCI计算实例
 -------
-以下手順で実行します。
+请按照以下步骤操作。
 
-1. 仮想クラウド・ネットワークを取得する
-2. コンピュートインスタンスを取得する
+1.获取虚拟云网络
+2.获取一个计算实例
 
-#### 1. 仮想クラウド・ネットワークを取得する
+#### 1.获取虚拟云网络
 
-OCIコンソール右上のハンバーガーメニューを展開し、「ネットワーキング」⇒「仮想クラウド・ネットワーク」に移動して、「ネットワーキングQuickstart」ボタンをクリックします。
+展开OCI控制台右上方的汉堡菜单，转到“网络”⇒“虚拟云网络”，然后单击“网络快速入门”按钮。
 
-ネットワーキングQuickstart画面で、「インターネット接続性を持つVCN」を選択して、「ワークフローの開始」をクリックします。
+在“网络快速入门”屏幕上，选择“具有Internet连接的VCN”，然后单击“启动工作流”。
 
 ![](images/0001.jpg)
 
-インターネット接続性を持つVCNの作成画面で、下記項目を入力して、「次」ボタンをクリックします。
+在用于创建具有Internet连接的VCN的屏幕上，输入以下项目，然后单击“下一步”按钮。
 
-+ VCN前：任意。例えば、`workshopvcn`
++ VCN之前：可选。例如，`workshopvcn`
 
-+ コンパートメントに作成：ご利用のコンパートメントを選択する。
++创建隔间：选择您的隔间。
 
-+ VCN CIDRブロック：たとえば、`10.0.0.0/16`
++ VCN CIDR块：例如“ 10.0.0.0 / 16”
 
-+ パブリック・サブネットCIDRブロック：たとえば、`10.0.0.0/24`
++公共子网CIDR块：例如，“ 10.0.0.0 / 24”
 
-+ プライベート・サブネットCIDRブロック：たとえば、`10.0.1.0/24`
++专用子网CIDR块：例如“ 10.0.1.0 / 24”
 
 ![](images/0002.jpg)
 
-インターネット接続性を持つVCNの作成画面で、「作成」をクリックします。
+在“使用Internet连接创建VCN”屏幕上，单击“创建”。
 
 ![](images/0010.jpg)
 
-これで、仮想クラウド・ネットワークの取得は完了しました。
+这样就完成了虚拟云网络的获取。
 
-#### 2. コンピュートインスタンスを取得する
+#### 2.获取一个计算实例
 
-OCIのコンピュートインスタンスを取得するのは、SSHキーペアが必要です。SSHキーペアの作成方法について、[キーペアの作成](https://docs.oracle.com/cd/E97706_01/Content/GSG/Tasks/creatingkeys.htm)をご参照ください。
+您需要SSH密钥对才能获取OCI计算实例。有关如何创建SSH密钥对的信息，请参考[创建密钥对](https://docs.oracle.com/cd/E97706_01/Content/GSG/Tasks/creatingkeys.htm)。
 
-OCIコンソール右上のハンバーガーメニューを展開し、「コンピュート」⇒「インスタンス」に移動して、「インスタンスの作成」ボタンをクリックします。
+展开OCI控制台右上方的汉堡菜单，转到“计算”⇒“实例”，然后单击“创建实例”按钮。
 
-コンピュート・インスタンスの作成画面で、「シェイプ、ネットワーク、ストレージ・オプションの表示」をクリックし、下記項目を入力して、「作成」ボタンをクリックします。
+在“创建计算实例”屏幕上，单击“显示形状，网络和存储选项”，输入以下各项，然后单击“创建”按钮。
 
-入力項目|説明
+输入项目|描述
 -|-
-インスタンスの命名|任意（例えば、workshopvm）
-インスタンスのシェイプ|シェイプを選択する（例えば、VM.Standard2.1）
-仮想クラウド・ネットワーク・コンパートメント|ご利用のコンパートメントを選択する
-仮想クラウド・ネットワーク|ご利用の仮想クラウド・ネットワークを選択する（例えば、workshopvcn）
-サブネット・コンパートメント|ご利用のコンパートメントを選択する
-サブネット|インターネットからアクセスするため、"パブリック・サブネット"付きのサブネットを選択する
-ネットワークセキュリティグループを使用してトラフィックを制御|選択しない
-パブリックIPアドレスの割当て|インターネットからアクセスするため選択
-SSHキー|SSHキーペアの作成で作成したPublicキーを貼り付け、または選択
+实例命名|任意（例如，workshopvm）
+实例形状|选择形状（例如VM.Standard2.1）
+虚拟云网络隔间|选择您的隔间
+虚拟云网络|选择您的虚拟云网络（例如，workshopvcn）
+子网分区|选择您的分区
+子网|选择具有“公共子网”的子网以从Internet访问
+使用网络安全组控制流量|请勿选择
+分配公共IP地址|选择以从Internet访问
+粘贴或选择在SSH密钥中创建的公共密钥|创建SSH密钥对
 
 ![](images/0018.jpg)
 
 ![](images/0020.jpg)
 
-インスタンスの詳細画面が表示され、作成完了したら、ステータスが"実行中"になり、パブリックIPアドレスが表示されます。
+将显示实例详细信息屏幕，创建完成后，状态将更改为“正在运行”，并显示公共IP地址。
 
 ![](images/0030.jpg)
 
-sshが実行できる端末（例えば、putty）でOCIのコンピュートインスタンスにアクセスします。例えば、puttyをご利用の場合、下記項目を入力して「Open」ボタンをクリックします。
+在可以运行ssh(例如，腻子)的终端上访问OCI计算实例。例如，如果您使用的是腻子，请输入以下项目，然后单击“打开”按钮。
 
-+ Session  ⇒ Host Name (or IP address)：コンピュートインスタンスのパブリックIPアドレス
-+ Connection ⇒ Data  ⇒ Auto-login username：opc
-+ Connection ⇒ SSH  ⇒ Auth ⇒ Private key file for authentication：SSH秘密キーパス
++会话⇒主机名(或IP地址)：计算实例的公共IP地址
++连接⇒数据⇒自动登录用户名：opc
++连接⇒SSH⇒身份验证⇒用于认证的私钥文件：SSH私钥传递
 
 ![](images/0040.jpg)
 
-これで、OCIのコンピュートインスタンスの取得は完了しました。
+您已完成OCI计算实例的获取。
 
-ソフトウェアのインストール
+软件安装
 ---------
 
-ご利用するユーザーのホームディレクトリで、"install_software.sh"のスクリプトを作成します。
+在要使用的用户的主目录中创建“ install_software.sh”脚本。
 
 ```sh
 vi install_software.sh
 ```
 
-下記スクリプト内容をコピーして、保存します。
+复制并保存下面的脚本内容。
 ```sh
 #!/bin/bash
 
@@ -154,37 +154,37 @@ echo ""
 echo "Install Complete"
 ```
 
-"install_software.sh"のスクリプトに実行権限を付与して、実行します。
+授予“ install_software.sh”脚本执行权限并执行它。
 
 ```sh
-chmod +x install_software.sh
+chmod + x install_software.sh
 ```
 ```sh
 ./install_software.sh
 ```
 
-成功した場合、git、kubectl、terraformのバージョン情報が正しく表示されます。
+如果成功，则git，kubectl和terraform版本信息将正确显示。
 
-最新Terraformのバージョンは0.12.21以上になる場合、下記のようなメッセージが出力されるかもしれません。
+如果最新的Terraform版本是0.12.21或更高版本，则可能会看到以下消息：
 
 ```
-Your version of Terraform is out of date! The latest version
-is x.yy.zz. You can update by downloading from www.terraform.io/downloads.html
+您的Terraform版本已过时！最新版本
+是x.yy.zz。您可以通过从www.terraform.io/downloads.html下载进行更新
 ```
 
-その場合、最新のTerraformのバージョンをパラメータとして、"install_software.sh"に渡して再度実行してください。
+在这种情况下，请将最新的Terraform版本作为参数传递给“ install_software.sh”，然后再次执行。
 
 ```
 ./install_software.sh x.yy.zz
 ```
 
-例えば
+举个例子
 ```
 ./install_software.sh 0.12.21
 ```
 
-これで、ソフトウェアのインストールは完了しました。
+至此，软件安装完成。
 
-続いて[ワークショップで利用するアカウント情報の収集](WorkshopGuide200GatherInformation.md)に進んでください。
+接下来，继续[收集研讨会中使用的帐户信息](WorkshopGuide200GatherInformation.md)。
 
-[ワークショップTopへ](../README.md)
+[转到README](../ README.md)

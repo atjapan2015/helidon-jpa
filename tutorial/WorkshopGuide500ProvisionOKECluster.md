@@ -1,29 +1,29 @@
-Terraformを使用したOKEクラスタの作成
+使用Terraform创建OKE集群
 =====
 
-このステップでは、仮想クラウド・ネットワーク、サブネット、アクセスリストなどの必要なすべてのネットワーク要素を含む、Terraformを使用してOKEクラスタを作成する方法について説明します。
+此步骤描述了如何使用Terraform创建OKE集群，包括所有必需的网络元素，例如虚拟云网络，子网和访问列表。
 
-!!! Note
-    OCIではResource ManagerというTerraformベースのリソース管理サービスをご利用いただけます。Resource ManagerはTerraformスクリプトを使用して「infrastructure-as-code」モデルを通じてリソースのインストール、構成、および管理を支援します。今回はTerraformスクリプトの編集を経験するためResource Managerは使用しません。
+!!!注意
+    OCI提供了基于Terraform的资源管理服务，称为资源管理器。资源管理器使用Terraform脚本通过“基础结构即代码”模型帮助安装，配置和管理资源。这次，我将不会使用资源管理器来体验编辑Terraform脚本。
 
-下記手順で実行します。
+请按照以下步骤操作。
 
-1. 新しいターミナルウィンドウを開き、git repositoryフォルダーのterraform_okeフォルダーに移動する
-2. terraform.tfvarsを編集し、収集したOCIDなどの情報を入力する
-3. terraform init、terraform plan、terraform applyを実行して、OKEクラスタを作成する
-4. 作成されたファイルworkshop_cluster_kubeconfigを使用して、kubectlコマンドでOKEにアクセスする
+1.打开一个新的终端窗口，然后转到git repository文件夹中的terraform_oke文件夹
+2.编辑terraform.tfvars，然后输入收集的OCID和其他信息
+3.执行terraform init，terraform计划和terraform应用以创建OKE集群
+4.使用创建的文件workshop_cluster_kubeconfig通过kubectl命令访问OKE。
 
-### 1. 新しいターミナルウィンドウを開き、git repositoryフォルダーのterraform_okeフォルダーに移動する
+### 1.打开一个新的终端窗口，然后转到git存储库文件夹中的terraform_oke文件夹
 
 ```sh
 cd terraform_oke
 ```
 
-### 2. terraform.tfvarsを編集し、収集したOCIDなどの情報を入力する
+### 2.编辑terraform.tfvars并输入信息，例如收集的OCID
 
-OKEクラスタの構成を、Terraformのパラメータファイル``terraform.tfvars``に記述する設定によって変更することができます。（※ワークショップでは、できる限りデフォルト値を設定し、変更する必要なパラメータを少なめにしました）
+可以通过Terraform参数文件``terraform.tfvars''中描述的设置来更改OKE群集的配置。 (*在研讨会上，尽可能地设置了默认值，并减少了需要更改的参数。)
 
-ベースとなるパラメータファイルをコピーして、これを編集していきます。[ステップ2](WorkshopGuide200GatherInformation.md)で収集した情報を使用して、OCIDなどの情報を入力します。
+复制基本参数文件并进行编辑。 [步骤2]使用(WorkshopGuide200GatherInformation.md)中收集的信息输入诸如OCID之类的信息。
 
 ```sh
 cp terraform.tfvars.example terraform.tfvars
@@ -32,19 +32,19 @@ cp terraform.tfvars.example terraform.tfvars
 vi terraform.tfvars
 ```
 
-対象のパラメータは以下のとおりです。
-key|value
+目标参数如下。
+关键|值
 -|-
-tenancy_ocid|テナントOCID
-compartment_ocid|コンパートメントOCID
-fingerprint|API Signingキーのフィンガープリント
-private_key_path|API SigningのPrivateキーのローカルパス
-user_ocid|ユーザーOCID
-region|リージョン識別子
+tenancy_ocid |租户OCID
+隔离专区|隔离专区OCID
+指纹| API签名密钥指纹
+private_key_path | API签名私钥的本地路径
+user_ocid |用户OCID
+地区|地区标识符
 
-以下に、パラメータファイルの記述例を示します。
+下面显示了参数文件的描述示例。
 
-```properties
+```属性
 # OCI authentication
 
 tenancy_ocid = "ocid1.tenancy.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -55,65 +55,65 @@ user_ocid = "ocid1.user.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 region = "ap-tokyo-1"
 ```
 
-### 3. terraform init、terraform plan、terraform applyを実行して、OKEクラスタを取得する
+### 3.执行Terraform初始化，terraform计划和Terraform应用以获得OKE集群
 
-このディレクトリで`terraform init`を実行すると、すべての依存関係がダウンロードされます。
+在该目录中运行`terraform init`将下载所有依赖项。
 
-`terraform plan`を実行して構成を検証します。
+运行“ terraform plan”以验证配置。
 
-`terraform apply`を実行してインフラストラクチャを起動します。
+运行“ terraform apply”以启动基础架构。
 
-「yes」と入力します。
+输入“是”。
 
-下記2つファイルが作成されます。
+将创建以下两个文件。
 
-+ terraform.tfstate：このファイルには、作成された要素の詳細が含まれています。Terraformでは、構成ファイルを更新するときにこのファイルが必要になり、インフラストラクチャにこの変更を適用する必要があります。
-+ workshop_cluster_kubeconfig：これは、新しく作成したKubernetesクラスタに接続するための構成ファイルです。
++ terraform.tfstate：此文件包含创建的元素的详细信息。 Terraform在更新配置文件时需要此文件，并且必须将此更改应用于基础结构。
++ workshop_cluster_kubeconfig：这是用于连接到新创建的Kubernetes集群的配置文件。
 
-### 4．作成されたファイルworkshop_cluster_kubeconfigを使用して、kubectlコマンドでOKEにアクセスする
+### 4。使用创建的文件workshop_cluster_kubeconfig使用kubectl命令访问OKE
 
-OKEクラスタにアクセスするために、OCIプロファイルを設定する必要があります。
+要访问OKE集群，您需要设置OCI配置文件。
 
 ```sh
-oci setup config
+oci设置配置
 ```
 
-下記情報を順次に記入します。
+按顺序填写以下信息。
 
-1. Enter a location for your config [/home/opc/.oci/config]:  `Enter`
-2. Enter a user OCID: ユーザーOCID。たとえば、`ocid1.user.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
-3. Enter a tenancy OCID: テナントOCID。たとえば、`ocid1.tenancy.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
-4. Enter a region: リージョン識別子。たとえば、`ap-tokyo-1`
-5. Do you want to generate a new RSA key pair? (If you decline you will be asked to supply the path to an existing key.) [Y/n]: `n`
-6. Enter the location of your private key file: `/home/opc/.oci/oci_api_key.pem`
+1.输入您的配置[/home/opc/.oci/config]的位置：`Enter`
+2.输入用户OCID：用户OCID。例如，“ ocid1.user.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx”
+3.输入租户OCID：租户OCID。例如，“ ocid1.tenancy.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx”
+4.输入地区：地区标识符。例如，“ ap-tokyo-1”
+5.您要生成一个新的RSA密钥对吗(如果拒绝，将要求您提供现有密钥的路径。)[Y / n]：`n`
+6.输入私钥文件的位置：`/home/opc/.oci/oci_api_key.pem`
 
 
 
-kubectlコマンドを使用してOKEクラスタが作成されているか検証します。
+验证是否已使用kubectl命令创建了OKE集群。
 
 ```
 kubectl get nodes --kubeconfig=workshop_cluster_kubeconfig
 ```
 
-数分待って、以下のような内容が表示されます。
+等待几分钟，您将看到类似以下的内容：
 
 ```
 NAME        STATUS   ROLES   AGE   VERSION
 10.0.24.2   Ready    node     3m   v1.14.8
 ```
 
-これで、OKEクラスタの作成は完了しました。
+OKE集群的创建现已完成。
 
-##### 補足：ブラウザからkubeconfigを取得する方法
+#####注意：如何从浏览器获取kubeconfig
 
-OKEクラスタへアプリケーションをデプロイするためにはkubeconfigファイルが必要です。kubeconfigファイルは先ほどTerraformで作成した`workshop_cluster_kubeconfig`ファイルを利用する以外に、ブラウザからもkubeconfigを取得することが可能です。
+需要kubeconfig文件才能将应用程序部署到OKE集群。至于kubeconfig文件，除了使用Terraform创建的`workshop_cluster_kubeconfig`文件之外，您还可以从浏览器获取kubeconfig。
 
-OCIコンソール右上のハンバーガーメニューを展開し、「開発者サービス」⇒「コンテナ・クラスタ(OKE)」に移動して、コンパートメントを選択し、次は該当OKEクラスタを選択して、「Kubeconfigへのアクセス」ボタンをクリックします。
+展开OCI控制台右上方的汉堡菜单，转到“开发人员服务”⇒“容器集群(OKE)”，选择一个隔离专区，然后选择适用的OKE集群，然后单击“访问Kubeconfig”点击按钮。
 
-赤枠で囲まれたコマンドをメモします。「閉じる」ボタンをクリックします。
+记下红框内的命令。点击“关闭”按钮。
 
-![](images/1220.jpg "")
+![](images/1220.jpg)
 
-続いて [Service Brokerを使用したATPの作成](WorkshopGuide600ProvisionATPDatabase.md) に進んでください。
+然后继续[使用Service Broker创建ATP](WorkshopGuide600ProvisionATPDatabase.md)。
 
-[ワークショップTopへ](../README.md)
+[转到README](../ README.md)

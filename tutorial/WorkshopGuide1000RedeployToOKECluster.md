@@ -1,29 +1,29 @@
-アプリケーションを修正し、再度DevCSのビルド機能（CI/CD）を使用して、OKEクラスタへのデプロイ
+修改应用程序，然后使用DevCS构建功能（CI / CD)将其再次部署到OKE集群
 =====
 
-例えば、Helidon&JETで開発したシステムのトップページのイメージを変更してみましょう。
+例如，让我们更改Helidon＆JET开发的系统首页的图像。
 
-コマンドプロンプトを開き、git repositoryフォルダーに移動します。イメージファイルを更新して、DevCSのリポジトリへCommitします。
+打开命令提示符，然后转到git repository文件夹。更新映像文件并提交到DevCS存储库。
 
 ```
 cp src/main/resources/web/images/forsale_new2.jpg src/main/resources/web/images/forsale.jpg
 ```
 
-DevCSの「ビルド」に移動して、ジョブ"JavaDockerOCIR"のビルドが自動的に開始されます。成功すると、ステータスが![](images/status_success.jpg "")になります。
+转到DevCS的“构建”，作业“ JavaDockerOCIR”的构建将自动开始。如果成功，状态将为![](images/ status_success.jpg)。
 
 ![](images/1842.jpg)
 
-次に、ジョブ"OKEDeploy"のビルドが自動的に開始されます。成功すると、ステータスが![](images/status_success.jpg "")になります。
+接下来，作业“ OKEDeploy”的构建自动开始。如果成功，状态将为![](images/status_success.jpg)。
 
 ![](images/1844.jpg)
 
-ブラウザを開いて、ブラウザを開いて、"http://パブリックIP:サービスのポート"に移動します。
+打开浏览器，打开浏览器，然后转到“ http：//公共IP：服务端口”。
 
-Helidon&JETで開発したシステムのトップページが表示されます。saleのイメージが変更されたことを確認できます。
+显示由Helidon＆JET开发的系统的首页。您可以看到销售图像已更改。
 
 ![](images/1850.jpg)
 
-これで、OKE・ATP・DevCSのワークショップは完了しました。
-お疲れ様でした！
+OKE / ATP / DevCS研讨会到此结束。
+谢谢你
 
-[ワークショップTopへ](../README.md)
+[转到README](../ README.md)

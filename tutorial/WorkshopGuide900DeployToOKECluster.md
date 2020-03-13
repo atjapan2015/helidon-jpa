@@ -1,70 +1,70 @@
-DevCSのビルド機能（CI/CD）を使用して、アプリケーションをOKEクラスタへのデプロイ
+使用DevCS构建功能(CI/CD)将应用程序部署到OKE集群
 =====
-このステップでは、新しいビルドジョブを作成して、セットアップしたOKEクラスタにアプリケーションをデプロイします。
+在此步骤中，您将创建一个新的构建作业，并将该应用程序部署到您设置的OKE集群中。
 
-以下の手順で実行します。
+请按照以下步骤操作。
 
-1. OKEクラスタにアプリケーションをデプロイするビルドジョブを構成する
-2. ビルドジョブを実行する
-3. デプロイしたアプリケーションを検証する
+1.配置构建作业以将应用程序部署到OKE集群
+2.执行构建作业
+3.验证已部署的应用程序
 
-### 1. OKEクラスタにアプリケーションをデプロイするビルドジョブを構成する
+### 1.配置构建作业以将应用程序部署到OKE集群
 
-DevCSで、「ビルド」に遷移して、「＋ジョブの作成」ボタンをクリックします。
+在DevCS中，转到“构建”，然后单击“ +创建作业”按钮。
 
-![](images/1700.jpg "")
+![](images/1700.jpg)
 
-下記項目を入力して、「作成」ボタンをクリックします。
+输入以下项目，然后单击“创建”按钮。
 
-+ 名前：任意、例えば、OKEDeploy
-+ 説明：任意、例えば、"Deploy application to OKE"
-+ テンプレート：OKE
++名称：任意，例如OKEDeploy
++说明：可选，例如“将应用程序部署到OKE”
++模板：OKE
 
-![](images/1710.jpg "")
+![](images/1710.jpg)
 
-「Git追加」から「Git」を選択します。
+从“添加Git”中选择“ Git”。
 
-![](images/1720.jpg "")
+![](images/1720.jpg)
 
-下記項目を入力します。
+输入以下项目。
 
-次のステップを追加します。「ステップ」をクリックします。
+添加以下步骤：点击“步骤”。
 
-+ リポジトリ：ご利用のリポジトリを選択する
-+ SCMコミット時に自動的にビルドを実行：チェックオンにする
++储存库：选择您的储存库
++在SCM提交上自动运行构建：选中
 
-![](images/1730.jpg)「ステップの追加」から「Docker」⇒「Dockerログイン」を選択します。
+![](images/1730.jpg)从“添加步骤”中选择“ Docker”⇒“ Docker登录”。
 
 ![](images/1740.jpg)
 
-下記項目を入力します。
+输入以下项目。
 
-+ レジスト・ホスト：入力したレジストリ名を選択する。例えば、WorkshopOCIR
++注册表主机：选择输入的注册表名称。例如，WorkshopOCIR
 
 ![](images/1750.jpg)
 
-「ステップの追加」から「OCIcli」を選択します。
+从添加步骤中选择OCIcli。
 
 ![](images/1760.jpg)
 
-下記項目を入力します。
+输入以下项目。
 
-+ ユーザーOCID：ユーザーOCID
-+ フィンガープリント：API Signingキーのフィンガープリント
-+ テナンシ：テナントOCID
-+ 秘密キー：API SigningのPrivateキーの内容（API SigningのPrivateキーのローカルパスではない）
-+ リージョン：リージョン識別子。例えば、`ap-tokyo-1`
++用户OCID：用户OCID
++指纹：API签名密钥指纹
++租约：租户OCID
++私钥：API签名私钥的内容(不是API签名私钥的本地路径)
++地区：地区标识符。例如，“ ap-tokyo-1”
 
-![](images/1770.jpg "")
+![](images/1770.jpg)
 
-「ステップの追加」から「UNIXシェル」を選択します。
+从“添加步骤”中选择“ UNIX Shell”。
 
 ![](images/1780.jpg)
 
-下記項目を入力して、「保存」ボタンをクリックします。
+输入以下项目，然后单击“保存”按钮。
 
-+ スクリプト：--cluster-idのあるコマンドは書き留めたコマンドへ差し替えてください（⇒OKEクラスタのkubeconfigファイルを作成するためのコマンド）
-+ `kubectl create secret docker-registry workshop-ocirsecret`コマンドはは各自の情報へ差し替えてください。
++脚本：用--cluster-id替换为您写下的命令(⇒创建OKE集群的kubeconfig文件的命令)
++用您自己的信息替换`kubectl create secret docker-registry workshop-ocirsecret`命令。
 
 ```
 mkdir -p $HOME/.kube
@@ -86,47 +86,47 @@ kubectl create secret docker-registry workshop-ocirsecret --docker-server=<your-
 
 ![](images/1790.jpg)
 
-### 2. ビルドジョブを実行する
+### 2.执行构建作业
 
-「今すぐビルド」ボタンをクリックします。
+单击“立即构建”按钮。
 
 ![](images/1810.jpg)
 
-成功すると、ステータスが![](images/status_success.jpg "")になります。
+如果成功，状态将为![](images/status_success.jpg)。
 
-「ビルド・ログ」をクリックします。
+单击生成日志。
 
 ![](images/1820.jpg)
 
-成功すると、"Status:DONE Result:SUCCESSFUL"が表示されます。
+如果成功，则显示“状态：完成结果：成功”。
 
 ![](images/1830.jpg)
 
-### 3. デプロイしたアプリケーションを検証する
+### 3.验证已部署的应用程序
 
-`kubectl get services | grep oke-atp-helidon`でデプロイしたサービスのポートを確認します。
+使用`kubectl get services | grep oke-atp-helidon`检查已部署服务的端口。
 
-ワークショップでは、サービスのポートは"31205"になります。
+在车间中，服务端口将为“ 31205”。
 
 ```
 oke-atp-helidon                      NodePort    10.2.142.208   <none>        8080:31205/TCP   6m37s
 ```
 
-`kubectl get nodes -o wide`でOKEクラスタのワーカーノードのパブリックIP（EXTERNAL-IP）を確認します。
+使用“ kubectl获取节点-o宽”来检查OKE集群的工作节点的公共IP(EXTERNAL-IP)。
 
 ```
 NAME        STATUS   ROLES   AGE   VERSION   INTERNAL-IP   EXTERNAL-IP      OS-IMAGE                  KERNEL-VERSION                   CONTAINER-RUNTIME
 10.0.24.2   Ready    node    24h   v1.14.8   10.0.24.2     xxx.xxx.xxx.xx   Oracle Linux Server 7.6   4.14.35-1902.2.0.el7uek.x86_64   docker://18.9.8
 ```
 
-ブラウザを開いて、"http://パブリックIP:サービスのポート"に移動します。（※OKEクラスタのワーカーノードのサブネットが使用するセキュリティ・リストのイングレス・ルールに対して、サービスのポートを解放する必要があります）
+打开浏览器，然后转到“ http：//公共IP：服务端口”。 (*对于OKE群集的工作节点的子网所使用的安全列表的进入规则，有必要释放服务端口)
 
-Helidon＆JETで開発したシステムのトップページが表示されます。
+显示由Helidon＆JET开发的系统的首页。
 
 ![](images/1840.jpg)
 
-これで、アプリケーションをOKEへのデプロイは完了しました。
+该应用程序现已部署到OKE。
 
-続いて [アプリケーションを修正し、再度DevCSのビルド機能（CI/CD）を使用して、OKEクラスタへのデプロイ](WorkshopGuide1000RedeployToOKECluster.md) に進んでください。
+接下来，继续[修改应用程序并再次使用DevCS构建功能(CI/CD)部署到OKE集群](WorkshopGuide1000RedeployToOKECluster.md)。
 
-[ワークショップTopへ](../README.md)
+[转到README](../README.md)

@@ -1,1 +1,1 @@
-# KubernetesおよびAutonomous Databaseでアプリケーション開発を体験
+# 使用Kubernetes和自治数据库体验应用程序开发

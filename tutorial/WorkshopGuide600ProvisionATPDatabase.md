@@ -1,107 +1,107 @@
-Service Brokerを使用したATPの作成
+使用Service Broker创建ATP
 =====
 
-このステップでは、Service Brokerを使用してATPデータベースを作成する方法について説明します。
+此步骤描述了如何使用Service Broker创建ATP数据库。
 
-Service Broker、Service CatalogおよびOCI Service Brokerについて、説明します。
+了解有关Service Broker，Service Catalog和OCI Service Broker的信息。
 
-- Service Brokerは、サードパーティが提供および管理する一連の管理サービスのエンドポイントです。
+-Service Broker是第三方提供和管理的一组管理服务的端点。
 
-- Service Catalogは、Kubernetesクラスタで実行されているアプリケーションが、クラウドプロバイダーが提供するデータストアサービスなどの外部管理ソフトウェアを簡単に使用できるようにする拡張APIです。
+-Service Catalog是扩展的API，允许在Kubernetes集群上运行的应用程序轻松使用外部管理软件，例如云提供商提供的数据存储服务。
 
-- OCI Service Brokerは、OCI（Oracle Cloud Infrastructure）サービス用の[Open service broker API Spec](https://github.com/openservicebrokerapi/servicebroker/blob/v2.14/spec.md)のオープンソース実装です。お客様はこの実装を使用して、[Oracle Container Engine for Kubernetes](https://docs.cloud.oracle.com/iaas/Content/ContEng/Concepts/contengoverview.htm)または他のKubernetesクラスタにOpen Service Brokerをインストールできます。
+-OCI Service Broker是[开放服务代理API规范](https://github.com/openservicebrokerapi/servicebroker/blob/v2.14/spec.md)的开源实现，用于OCI(Oracle云基础架构)服务。客户可以使用此实现为[用于Kubernetes的Oracle容器引擎](https://docs.cloud.oracle.com/iaas/Content/ContEng/Concepts/contengoverview.htm)或其他Kubernetes集群创建开放服务代理。可以安装。
 
-下記手順で実行します。
+请按照以下步骤操作。
 
-0. 事前準備
-1. helmをインストールする
-2. Service Catalogとsvcatツールをインストールする
-3. OCI Service Brokerをインストールする
-4. ATPデータベースを取得する
-5. ATPデータベースのWalletファイルを取得する
+0.提前准备
+1.安装头盔
+2.安装服务目录和svcat工具
+3.安装OCI Service Broker
+4.获取ATP数据库
+5.获取ATP数据库钱包文件
 
-### 0. 事前準備
+### 0.预先准备
 
-oke-atp-helidon-handsonディレクトリに移動して、直接``kubectl``でワークショップで使用するOKEクラスタにアクセスするために、workshop_cluster_kubeconfigを$HOME/.kube/configにコピーします。
+转到oke-atp-helidon-handson目录，然后将workshop_cluster_kubeconfig复制到$ HOME / .kube / config以使用``kubectl''直接访问研讨会中使用的OKE集群。
 
 ```sh
 cp ./terraform_oke/workshop_cluster_kubeconfig $HOME/.kube/config
 ```
 
-``kubectl get nodes``で確認します。
+检查``kubectl获取节点''。
 
 ```sh
 kubectl get nodes
 ```
 
-OKEクラスタのnodes情報が出力されます。
+输出OKE集群的节点信息。
 
 ```
 NAME        STATUS   ROLES   AGE   VERSION
 10.0.24.2   Ready    node    43m   v1.14.8
 ```
 
-これで、事前準備は完了しました。
+准备工作现已完成。
 
-### 1. helmをインストールする
+### 1.安装HELM
 
-helmをインストールします。
+安装头盔。
 
 ```sh
 curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
 ```
 
-``helm version``でhelmバージョン情報を確認します。（$HOME/.kube/configでkubeconfigを設定した場合、--kubeconfigを指定する必要はありません。これ以降は同様です。）
+使用``舵机版本''检查舵机版本信息。 (如果在$ HOME / .kube / config中设置kubeconfig，则无需指定--kubeconfig。从此处开始同样适用。)
 
 ```sh
 helm version
 ```
 
-もしクライアントバージョン（たとえば、v2.16.1）とサーバーバージョン（たとえば、v2.14+unreleased）が違う場合、サーバーバージョンをアップグレードする必要です。同じ場合、アップグレードする必要がありません。
+如果客户端版本(例如v2.16.1)和服务器版本(例如v2.14 +未发行)不同，则需要升级服务器版本。如果它们相同，则无需升级。
 
 ```
 Client: &version.Version{SemVer:"v2.16.3", GitCommit:"1ee0254c86d4ed6887327dabed7aa7da29d7eb0d", GitTreeState:"clean"}
 Server: &version.Version{SemVer:"v2.14+unreleased", GitCommit:"", GitTreeState:"clean"}
 ```
 
-helmのサーバーバージョンをアップグレードします。
+升级HELM的服务器版本。
 
 ```sh
 helm init --upgrade
 ```
 
-再度、``helm version``でhelmバージョン情報を確認します。
+再次，用``helm version''检查头盔版本信息。
 
 ```sh
 helm version
 ```
 
-クライアントバージョン（たとえば、v2.16.1）とサーバーバージョン（たとえば、v2.16.1）が同じであることを確認します。
+确保客户端版本(例如v2.16.1)和服务器版本(例如v2.16.1)相同。
 
 ```
 Client: &version.Version{SemVer:"v2.16.3", GitCommit:"1ee0254c86d4ed6887327dabed7aa7da29d7eb0d", GitTreeState:"clean"}
 Server: &version.Version{SemVer:"v2.16.3", GitCommit:"1ee0254c86d4ed6887327dabed7aa7da29d7eb0d", GitTreeState:"clean"}
 ```
 
-これで、helmのインストールは完了しました。
+头盔的安装现已完成。
 
-### 2. Service Catalogとsvcatツールをインストールする
+### 2.安装服务目录和svcat工具
 
-Service Catalogのリポジトリを追加します。
+添加服务目录存储库。
 
 ```sh
 helm repo add svc-cat https://svc-catalog-charts.storage.googleapis.com
 ```
 
-Service Catalogをインストールします。
+安装服务目录。
 
 ```sh
 helm install svc-cat/catalog --set controllerManager.verbosity="4" --timeout 300 --name catalog
 ```
 
-svcatツールをインストールします。
+安装svcat工具。
 
-- svcatは、Service Catalogリソースと対話するためのコマンドラインインターフェイス（CLI）です。
+-svcat是用于与服务目录资源进行交互的命令行界面(CLI)。
 
 ```sh
 curl -sLO https://download.svcat.sh/cli/latest/linux/amd64/svcat
@@ -115,35 +115,35 @@ chmod +x ./svcat
 sudo mv ./svcat /usr/local/bin/
 ```
 
-svcatツールのクライアントバージョン情報を確認します。
+检查svcat工具的客户端版本信息。
 
 ```sh
 svcat version --client
 ```
 
-svcatのクライアントバージョン情報が出力されることを確認します。
+检查是否输出了svcat的客户端版本信息。
 
 ```
 Client Version: v0.3.0-beta.2
 ```
 
-これで、Service Catalogとsvcatツールのインストールは完了しました。
+这样就完成了Service Catalog和svcat工具的安装。
 
-### 3. OCI Service Brokerをインストールする
+### 3.安装OCI Service Broker
 
-oke-atp-helidon-handsonディレクトリに移動して、OCI Service Brokerリポジトリのクローンを実行します。
+转到oke-atp-helidon-handson目录并克隆OCI Service Broker存储库。
 
 ```sh
 git clone https://github.com/oracle/oci-service-broker.git
 ```
 
-``oci-service-broker``ディレクトリに移動します。
+切换到oci-service-broker目录。
 
 ```sh
 cd oci-service-broker
 ```
 
-OCI Service Brokerをインストールするのは、ociアカウント情報などが含まれるsecretを作成する必要があります。該当secretを作成します。
+要安装OCI Service Broker，您需要创建一个包含oci帐户信息等的秘密。创建相应的秘密。
 
 ```
 kubectl create secret generic ocicredentials \
@@ -155,17 +155,17 @@ kubectl create secret generic ocicredentials \
   --from-file=privatekey=<private_key_path>   	
 ```
 
-対象のパラメータは以下のとおりです。
-key|value
+目标参数如下。
+关键|值
 -|-
-tenancy_ocid|テナントOCID
-user_ocid|ユーザーOCID
-fingerprint|API SigningのPrivateキーのフィンガープリント
-region|リージョン識別子、たとえば、ap-tokyo-1
-passphrase|API Signingキーのパスワード（設定されない場合は""を入力）
-private_key_path|API Signingキーのローカルパス
+tenancy_ocid |租户OCID
+user_ocid |用户OCID
+指纹| API签名私钥指纹
+地区|地区标识符，例如ap-tokyo-1
+API签名密钥的密码|密码(如果未设置，请输入“”)
+private_key_path | API签名密钥的本地路径
 
-OCI Service Brokerをインストールします。
+安装OCI Service Broker。
 
 ```sh
 helm install charts/oci-service-broker/. --name oci-service-broker \
@@ -174,25 +174,25 @@ helm install charts/oci-service-broker/. --name oci-service-broker \
 	--set tls.enabled=false
 ```
 
-OCI Service Brokerの登録先のnamespaceを設定します。たとえば、ワークショップではdefaultのnamespaceに登録します。
+设置OCI Service Broker注册目标的名称空间。例如，在Workshop中，在默认名称空间中注册。
 
 ```sh
 sed -i -e 's/<NAMESPACE_OF_OCI_SERVICE_BROKER>/default/g' ./charts/oci-service-broker/samples/oci-service-broker.yaml
 ```
 
-OCI Service Brokerの登録を実行します。
+执行OCI Service Broker注册。
 
 ```sh
 kubectl create -f ./charts/oci-service-broker/samples/oci-service-broker.yaml
 ```
 
-``brokers``の情報を確認します。
+检查`brokers`的信息。
 
 ```sh
 svcat get brokers
 ```
 
-``brokers``の情報が表示されることを確認します。ステータスが"Ready"になります。
+确认显示`brokers`的信息。状态变为“就绪”。
 
 ```
          NAME          NAMESPACE                    URL                     STATUS  
@@ -200,13 +200,13 @@ svcat get brokers
   oci-service-broker               http://oci-service-broker.default:8080   Ready 
 ```
 
-``classes``の情報を確認します。
+检查`classes`的信息。
 
 ```sh
 svcat get classes
 ```
 
-``classes``の情報が表示されることを確認します。利用できるOCIサービスが表示されます。
+确认显示“类别”的信息。显示可用的OCI服务。
 
 ```
           NAME           NAMESPACE                 DESCRIPTION                 
@@ -219,64 +219,64 @@ svcat get classes
   oss-service                        Oracle Streaming Service
 ```
 
-``plans``の情報を確認します。
+检查`plans`中的信息。
 
 ```sh
 svcat get plans
 ```
 
-``plans``の情報が表示されることを確認します。OCI Service Brokerで提供するサービスのプランが表示されます。
+确认已显示`plans`信息。显示由OCI Service Broker提供的服务计划。
 
 ```
-    NAME     NAMESPACE          CLASS                    DESCRIPTION            
-+----------+-----------+----------------------+--------------------------------+
-  standard               atp-service            OCI Autonomous Transaction      
-                                                Processing                      
-  archive                object-store-service   An Archive type Object Storage  
-  standard               object-store-service   A Standard type Object Storage  
-  standard               adw-service            OCI Autonomous Data Warehouse   
-  standard               oss-service            Oracle Streaming Service
+          NAME           NAMESPACE                 DESCRIPTION                 
++----------------------+-----------+------------------------------------------+
+  atp-service                        Autonomous Transaction                    
+                                     Processing Service                        
+  object-store-service               Object Storage Service                    
+  adw-service                        Autonomous Data Warehouse                 
+                                     Service                                   
+  oss-service                        Oracle Streaming Service
 ```
 
-これで、OCI Service Brokerのインストールは完了しました。
+OCI Service Broker的安装现已完成。
 
-### 4. ATPデータベースを取得する
+### 4.获取ATP数据库
 
-``oci-service-broker``のサンプルをベースにして、ATPデータベースを取得します。
+根据oci-service-broker示例获取ATP数据库。
 
-サンプルファイルにあるコンパートメントを更新します。
+更新样本文件中的隔离专区。
 
-（ocid1.compartment.oc1..aaaaaaaaxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxを各自のコンパートメントへ変更してください。）
+(请将ocid1.compartment.oc1..aaaaaaaaxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx更改为您自己的隔离专区。)
 
 ```sh
 sed -i -e 's/CHANGE_COMPARTMENT_OCID_HERE/ocid1.compartment.oc1..aaaaaaaaxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/g' ./charts/oci-service-broker/samples/atp/atp-instance-plain.yaml
 ```
 
-サンプルファイルにあるATPデータベースの名称を更新します。（たとえば、tfOKEATPDB）
+更新示例文件中的ATP数据库名称。 (例如，WORKSHOPATP)
 
 ```sh
 sed -i -e 's/osbdemo/WORKSHOPATP/g' ./charts/oci-service-broker/samples/atp/atp-instance-plain.yaml
 ```
 
-サンプルファイルにあるATPデータベースのパスワードを更新します。（たとえば、WOrkshop__8080）
+更新样本文件中的ATP数据库密码。 (例如，WOrkshop__8080)
 
 ```sh
 sed -i -e 's/s123456789S@/WOrkshop__8080/g' ./charts/oci-service-broker/samples/atp/atp-instance-plain.yaml
 ```
 
-ATPデータベースを取得します。
+获取ATP数据库。
 
 ```sh
 kubectl create -f ./charts/oci-service-broker/samples/atp/atp-instance-plain.yaml
 ```
 
-取得状況を確認します。
+检查采集状态。
 
 ```sh
 svcat get instances --all-namespaces
 ```
 
-最初、ステータスは"Provisioning"になります。
+最初，状态为“正在设置”。
 
 ```
        NAME        NAMESPACE      CLASS        PLAN        STATUS     
@@ -284,7 +284,7 @@ svcat get instances --all-namespaces
   osb-atp-demo-1   default     atp-service   standard   Provisioning
 ```
 
-ちょっと時間が経つと、最後はステータスは"Ready"になります。
+一段时间后，状态最终变为“就绪”。
 
 ```
        NAME        NAMESPACE      CLASS        PLAN     STATUS  
@@ -292,19 +292,19 @@ svcat get instances --all-namespaces
   osb-atp-demo-1   default     atp-service   standard   Ready
 ```
 
-ATPデータベースのBindingを行います。
+绑定ATP数据库。
 
 ```sh
 kubectl create -f ./charts/oci-service-broker/samples/atp/atp-binding-plain.yaml
 ```
 
-``bindings``の情報を確認します。
+检查`bindings`的信息。
 
 ```sh
 svcat get bindings
 ```
 
-``bindings``の情報が表示されることを確認します。
+确认显示`bindings`信息。
 
 ```
         NAME         NAMESPACE      INSTANCE      STATUS  
@@ -312,21 +312,21 @@ svcat get bindings
   atp-demo-binding   default     osb-atp-demo-1   Ready
 ```
 
-``bindings``はATPデータベースに接続用のWalletファイルが含まれています。``kubectl get``で確認できます。
+绑定包含用于连接到ATP数据库的钱包文件。您可以使用``kubectl get''进行检查。
 
 ```sh
 kubectl get secrets atp-demo-binding -o yaml
 ```
 
-ATPデータベースのパスワードが格納されるsecretを作成します。
+创建一个秘密以存储ATP数据库密码。
 
-たとえば、"WOrkshop__8080"を設定します。``base64``で暗号化にします。`V09ya3Nob3BfXzgwODAK`が出力されます。
+例如，设置“ WOrkshop__8080”。用``base64''加密。输出V09ya3Nob3BfXzgwODAK
 
 ```sh
 echo "WOrkshop__8080" | base64
 ```
 
-サンプルファイルにあるプレーンテキストと暗号化テキスト両方を更新します。
+更新示例文件中的纯文本和密文。
 
 ```sh
 sed -i -e 's/s123456789S@/WOrkshop__8080/g' ./charts/oci-service-broker/samples/atp/atp-demo-secret.yaml
@@ -336,19 +336,19 @@ sed -i -e 's/s123456789S@/WOrkshop__8080/g' ./charts/oci-service-broker/samples/
 sed -i -e 's/czEyMzQ1Njc4OVNACg==/V09ya3Nob3BfXzgwODAK/g' ./charts/oci-service-broker/samples/atp/atp-demo-secret.yaml
 ```
 
-secretを作成します。
+创建一个秘密。
 
 ```sh
 kubectl create -f ./charts/oci-service-broker/samples/atp/atp-demo-secret.yaml
 ```
 
-これで、ATPデータベースの取得は完了しました。
+ATP数据库的获取现已完成。
 
-### 5. ATPデータベースのWalletファイルを取得する
+### 5.获取ATP数据库钱包文件
 
-ATPデータベースに接続するのは、Walletファイルが必要です。次のステップで使用されます。
+需要钱包文件才能连接到ATP数据库。用于下一步。
 
-``fetch_wallet.sh``を実行して、Walletファイルを取得します。
+执行fetch_wallet.sh获取钱包文件。
 
 ```sh
 cd ..
@@ -362,22 +362,22 @@ chmod +x fetch_wallet.sh
 ./fetch_wallet.sh
 ```
 
-Walletファイル"Wallet_tfOKEATPDB.zip"が作成されます。
+创建一个钱包文件“ Wallet_tfOKEATPP.zip”。
 
 ```
 git add wallet.zip
 ```
 
 ```
-git commit -m "Walletファイルの追加" 
+git commit -m “添加钱包文件”
 ```
 
-作成されたファイル`wallet.zip`を使用して、ATPデータベースへ接続できます。
+您可以使用创建的文件“ wallet.zip”连接到ATP数据库。
 
-DevCSのビルド機能でこのファイルを使用して、データを導入し確認できます。次のステップで説明します。
+您可以将此文件与DevCS构建功能一起使用，以引入和验证数据。我们将在下一步进行解释。
 
-これで、ATPデータベースのWalletファイルの取得は完了しました。
+ATP数据库钱包文件的获取现已完成。
 
-続いて[DevCSのビルド機能（CI/CD）を使用して、ATPへデータ導入](WorkshopGuide700LoadData.md)に進んでください。
+接下来，继续[使用DevCS(CI / CD)的构建功能将数据引入ATP](WorkshopGuide700LoadData.md)。
 
-[ワークショップTopへ](../README.md)
+[转到README](../ README.md)

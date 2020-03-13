@@ -1,112 +1,112 @@
-DevCSのビルド機能（CI/CD）を使用して、アプリケーションのDockerイメージを作成、OCIRへの登録
+使用DevCS构建功能(CI / CD)创建应用程序的Docker映像并注册到OCIR
 =======
-このステップでは、DevCS上でJava Webアプリケーション（データソースとしてATPデータベースを使用）のDockerイメージを作成する方法を説明します。
+此步骤描述如何在DevCS上创建Java Web应用程序的Docker映像(使用ATP数据库作为数据源)。
 
-ここではHelidon＆JETで開発したアプリケーションを使用してコンテナイメージを作成します。
+在这里，使用Helidon＆JET开发的应用程序创建了容器映像。
 
-以下手順で実行します。
+请按照以下步骤操作。
 
-1. OCIRリポジトリへの接続を構成する
-2. イメージを作成・プッシュするためのDockerビルドジョブを構成する
-3. ビルドジョブを実行する
+1.配置与OCIR信息库的连接
+2.配置Docker构建作业以创建和推送映像
+3.执行构建作业
 
-### 1. OCIRリポジトリへの接続を構成する
+### 1.配置与OCIR信息库的连接
 
-DevCSで「Docker」に移動して、「外部レジストリのリンク」ボタンをクリックします。
+在DevCS中转到“ Docker”，然后单击“外部注册表链接”按钮。
 
-![](images/1500.jpg "")
+![](images/1500.jpg)
 
-下記項目を入力して、「作成」ボタンをクリックします。
+输入以下项目，然后单击“创建”按钮。
 
-+ レジストリ名：任意（例えば、WorkshopOCIR）
-+ レジストリURL：OCIRのレジストリURL。https://<リージョンコード>.ocir.io（例えば、Tokyoデータセンターの場合は、"https://nrt.ocir.io"）
-+ 短い説明：任意（例えば、"Workshop OCIR"）
-+ ユーザー名：`オブジェクト・ストレージ・ネームスペース/OCIにログインするユーザー名`（例えば、`オブジェクト・ストレージ・ネームスペース/aaaa.bbbb@oracle.com`または`オブジェクト・ストレージ・ネームスペース/oracleidentitycloudservice/aaaa.bbbb@oracle.com`）
-+ パスワード：書き留めた認証トークン
++注册表名称：任意(例如WorkshopOCIR)
++注册表URL：OCIR注册表URL。 https：// <区域代码> .ocir.io(例如，东京数据中心为“ https://nrt.ocir.io”)
++简短说明：任意(例如“ Workshop OCIR”)
++用户名：“用于登录对象存储命名空间/ OCI的用户名”(例如，“对象存储命名空间/oracleidentitycloudservice/aaaa.bbbb@oracle.com”或“对象存储命名空间/oracleidentitycloudservice/aaaa.bbbb@oracle.com`)
++密码：您写下的身份验证令牌
 
 ![](images/1510.jpg)
 
-成功すると、外部レジストリの情報が表示されます。
+如果成功，将显示来自外部注册表的信息。
 
-![image-20200306152343740](images/1520.jpg)
+![image-20200306152152343740](images/1520.jpg)
 
-### 2. イメージを作成・プッシュするためのDockerビルドジョブを構成する
+### 2.配置Docker构建作业以创建和推送映像
 
-「ビルド」に移動して、「＋ジョブの作成」をクリックします。
+转到“构建”，然后单击“ +创建作业”。
 
 ![](images/1530.jpg)
 
-下記項目を入力して、「作成」ボタンをクリックします。
+输入以下项目，然后单击“创建”按钮。
 
-+ 名前：任意（例えば、JavaDockerOCIR）
-+ 説明：任意（例えば、"Build and push Docker image to OCIR"）
-+ テンプレート：OKE
++名称：任意(例如，JavaDockerOCIR)
++说明：可选(例如“构建Docker映像并推送到OCIR”)
++模板：OKE
 
 ![](images/1540.jpg)
 
-右側の「Git追加」から「Git」を選択します。
+从右侧的“添加Git”中选择“ Git”。
 
 ![](images/1550.jpg)
 
-下記項目を入力します。
+输入以下项目。
 
-次のステップを追加します。「ステップ」をクリックします。
+添加以下步骤：点击“步骤”。
 
-+ リポジトリ：ご利用のリポジトリを選択する
-+ SCMコミット時に自動的にビルドを実行：チェックオンにする
++储存库：选择您的储存库
++在SCM提交上自动运行构建：选中
 
 ![](images/1560.jpg)
 
-「ステップの追加」から「Docker」⇒「Dockerログイン」を選択します。
+从“添加步骤”中，选择“ Docker”->“ Docker登录”。
 
 ![](images/1590.jpg)
 
-下記項目を入力します。
+输入以下项目。
 
-+ レジストリ・ホスト：入力したレジストリ名を選択します。例えば、WorkshopOCIR
++注册表主机：选择输入的注册表名称。例如，WorkshopOCIR
 
 ![image-20200306153258197](images/1610.jpg)
 
-「ステップの追加」から「Docker」⇒「Dockerビルド」を選択します。
+从“添加步骤”中，选择“ Docker”->“ Docker Build”。
 
 ![image-20200306153411938](images/1620.jpg)
 
-下記項目を入力します。
+输入以下项目。
 
-+ レジスト・ホスト：入力したレジストリ名を選択する（例えば、WorkshopOCIR）
-+ イメージ名：`オブジェクト・ストレージ・ネームスペース/オプション/イメージ名`で構成される（例えば、`オブジェクト・ストレージ・ネームスペース/workshop/okeatpapp`）
++注册表主机：选择输入的注册表名称(例如WorkshopOCIR)
++图像名称：由“对象存储名称空间/选项/图像名称”组成(例如，“对象存储名称空间/工作坊/ okeatpapp”)
 
 ![](images/1630.jpg)
 
-「ステップの追加」から「Docker」⇒「Dockerプッシュ」を選択します。
+从“添加步骤”中，选择“ Docker”->“ Docker Push”。
 
 ![](images/1632.jpg)
 
-下記項目を入力します。
+输入以下项目。
 
-+ レジスト・ホスト：入力したレジストリ名を選択します。例えば、WorkshopOCIR
-+ イメージ名：`オブジェクト・ストレージ・ネームスペース/オプション/イメージ名`で構成されます（例えば、`オブジェクト・ストレージ・ネームスペース/workshop/okeatpapp`）
++注册表主机：选择输入的注册表名称。例如，WorkshopOCIR
++映像名称：由“对象存储命名空间/选项/映像名称”组成(例如，“对象存储命名空间/workshop/oke-atp-helidon”)
 
-「保存」ボタンをクリックします。
+点击“保存”按钮。
 
 ![](images/1640.jpg)
 
-### 3. ビルドジョブを実行する
+### 3.执行构建作业
 
-「今すぐビルド」ボタンをクリックします。
+单击“立即构建”按钮。
 
-![image-20200306154351451](images/1650.jpg)
+![](images/1650.jpg)
 
-成功すると、ステータスが![](images/status_success.jpg "")になります。
+如果成功，状态将为![](images/status_success.jpg)。
 
 ![](images/1660.jpg)
 
-OCIのOCIRに移動すると、`oke-atp-helidon`のイメージがプッシュされたことを確認できます。
+转到OCI的OCIR，您可以看到“ oke-atp-helidon”图像已被推送。
 
 ![](images/1690.jpg)
 
-これで、アプリケーションをイメージに作成して、OCIRへのプッシュは完了しました。
+您已经在图像中创建了一个应用程序并将其推送到OCIR。
 
-続いて [DevCSのビルド機能（CI/CD）を使用して、アプリケーションをOKEクラスタへのデプロイ](WorkshopGuide900DeployToOKECluster.md) に進んでください。
+接下来，继续[使用DevCS构建功能(CI / CD)将应用程序部署到OKE集群](WorkshopGuide900DeployToOKECluster.md)。
 
-[ワークショップTopへ](../README.md)
+[转到工作坊顶部](../ README.md)
