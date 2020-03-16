@@ -75,15 +75,15 @@ region = "ap-seoul-1"
 要访问OKE集群，您需要设置OCI配置文件。
 
 ```sh
-oci设置配置
+oci setup config
 ```
 
 按顺序填写以下信息。
 
 1.输入您的配置[/home/opc/.oci/config]的位置：`Enter`
-2.输入用户OCID：用户OCID。例如，“ ocid1.user.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx”
-3.输入租户OCID：租户OCID。例如，“ ocid1.tenancy.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx”
-4.输入地区：地区标识符。例如，“ ap-tokyo-1”
+2.输入用户OCID：用户OCID。例如，`ocid1.user.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
+3.输入租户OCID：租户OCID。例如，`ocid1.tenancy.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
+4.输入地区：地区标识符。例如，`ap-seoul-1`
 5.您要生成一个新的RSA密钥对吗(如果拒绝，将要求您提供现有密钥的路径。)[Y / n]：`n`
 6.输入私钥文件的位置：`/home/opc/.oci/oci_api_key.pem`
 
@@ -104,7 +104,7 @@ NAME        STATUS   ROLES   AGE   VERSION
 
 OKE集群的创建现已完成。
 
-#####注意：如何从浏览器获取kubeconfig
+注意：如何从浏览器获取kubeconfig
 
 需要kubeconfig文件才能将应用程序部署到OKE集群。至于kubeconfig文件，除了使用Terraform创建的`workshop_cluster_kubeconfig`文件之外，您还可以从浏览器获取kubeconfig。
 
