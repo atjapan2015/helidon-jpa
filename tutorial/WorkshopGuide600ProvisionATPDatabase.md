@@ -5,30 +5,30 @@
 
 了解有关Service Broker，Service Catalog和OCI Service Broker的信息。
 
--Service Broker是第三方提供和管理的一组管理服务的端点。
+- Service Broker是第三方提供和管理的一组管理服务的端点。
 
--Service Catalog是扩展的API，允许在Kubernetes集群上运行的应用程序轻松使用外部管理软件，例如云提供商提供的数据存储服务。
+- Service Catalog是扩展的API，允许在Kubernetes集群上运行的应用程序轻松使用外部管理软件，例如云提供商提供的数据存储服务。
 
--OCI Service Broker是[开放服务代理API规范](https://github.com/openservicebrokerapi/servicebroker/blob/v2.14/spec.md)的开源实现，用于OCI(Oracle云基础架构)服务。客户可以使用此实现为[用于Kubernetes的Oracle容器引擎](https://docs.cloud.oracle.com/iaas/Content/ContEng/Concepts/contengoverview.htm)或其他Kubernetes集群创建开放服务代理。可以安装。
+- OCI Service Broker是[开放服务代理API规范](https://github.com/openservicebrokerapi/servicebroker/blob/v2.14/spec.md)的开源实现，用于OCI(Oracle云基础架构)服务。客户可以使用此实现为[用于Kubernetes的Oracle容器引擎](https://docs.cloud.oracle.com/iaas/Content/ContEng/Concepts/contengoverview.htm)或其他Kubernetes集群创建开放服务代理。可以安装。
 
 请按照以下步骤操作。
 
-0.提前准备
-1.安装头盔
-2.安装服务目录和svcat工具
-3.安装OCI Service Broker
-4.获取ATP数据库
-5.获取ATP数据库钱包文件
+0. 提前准备
+1. 安装HELM
+2. 安装服务目录和svcat工具
+3. 安装OCI Service Broker
+4. 获取ATP数据库
+5. 获取ATP数据库wallet文件
 
 ### 0.预先准备
 
-转到oke-atp-helidon-handson目录，然后将workshop_cluster_kubeconfig复制到$ HOME / .kube / config以使用``kubectl''直接访问研讨会中使用的OKE集群。
+转到oke-atp-helidon-handson目录，然后将workshop_cluster_kubeconfig复制到`$HOME/.kube/config`以使用`kubectl`直接访问研讨会中使用的OKE集群。
 
 ```sh
 cp ./terraform_oke/workshop_cluster_kubeconfig $HOME/.kube/config
 ```
 
-检查``kubectl获取节点''。
+检查`kubectl get nodes`。
 
 ```sh
 kubectl get nodes
@@ -45,13 +45,13 @@ NAME        STATUS   ROLES   AGE   VERSION
 
 ### 1.安装HELM
 
-安装头盔。
+安装HELM。
 
 ```sh
 curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
 ```
 
-使用``舵机版本''检查舵机版本信息。 (如果在$ HOME / .kube / config中设置kubeconfig，则无需指定--kubeconfig。从此处开始同样适用。)
+使用`helm version`检查helm版本信息。 (如果在`$HOME/.kube/config`中设置kubeconfig，则无需指定--kubeconfig。从此处开始同样适用。)
 
 ```sh
 helm version
@@ -70,7 +70,7 @@ Server: &version.Version{SemVer:"v2.14+unreleased", GitCommit:"", GitTreeState:"
 helm init --upgrade
 ```
 
-再次，用``helm version''检查头盔版本信息。
+再次，用`helm version`检查helm版本信息。
 
 ```sh
 helm version
@@ -83,7 +83,7 @@ Client: &version.Version{SemVer:"v2.16.3", GitCommit:"1ee0254c86d4ed6887327dabed
 Server: &version.Version{SemVer:"v2.16.3", GitCommit:"1ee0254c86d4ed6887327dabed7aa7da29d7eb0d", GitTreeState:"clean"}
 ```
 
-头盔的安装现已完成。
+HELM的安装现已完成。
 
 ### 2.安装服务目录和svcat工具
 
@@ -161,7 +161,7 @@ kubectl create secret generic ocicredentials \
 tenancy_ocid |租户OCID
 user_ocid |用户OCID
 指纹| API签名私钥指纹
-地区|地区标识符，例如ap-tokyo-1
+地区|地区标识符，例如ap-seoul-1
 API签名密钥的密码|密码(如果未设置，请输入“”)
 private_key_path | API签名密钥的本地路径
 
@@ -312,7 +312,7 @@ svcat get bindings
   atp-demo-binding   default     osb-atp-demo-1   Ready
 ```
 
-绑定包含用于连接到ATP数据库的钱包文件。您可以使用``kubectl get''进行检查。
+绑定包含用于连接到ATP数据库的wallet文件。您可以使用``kubectl get''进行检查。
 
 ```sh
 kubectl get secrets atp-demo-binding -o yaml
@@ -320,7 +320,7 @@ kubectl get secrets atp-demo-binding -o yaml
 
 创建一个秘密以存储ATP数据库密码。
 
-例如，设置“ WOrkshop__8080”。用``base64''加密。输出V09ya3Nob3BfXzgwODAK
+例如，设置`WOrkshop__8080`。用`base64`加密。输出`V09ya3Nob3BfXzgwODAK`
 
 ```sh
 echo "WOrkshop__8080" | base64
@@ -336,7 +336,7 @@ sed -i -e 's/s123456789S@/WOrkshop__8080/g' ./charts/oci-service-broker/samples/
 sed -i -e 's/czEyMzQ1Njc4OVNACg==/V09ya3Nob3BfXzgwODAK/g' ./charts/oci-service-broker/samples/atp/atp-demo-secret.yaml
 ```
 
-创建一个秘密。
+创建一个secret。
 
 ```sh
 kubectl create -f ./charts/oci-service-broker/samples/atp/atp-demo-secret.yaml
@@ -344,11 +344,11 @@ kubectl create -f ./charts/oci-service-broker/samples/atp/atp-demo-secret.yaml
 
 ATP数据库的获取现已完成。
 
-### 5.获取ATP数据库钱包文件
+### 5.获取ATP数据库wallet文件
 
-需要钱包文件才能连接到ATP数据库。用于下一步。
+需要wallet文件才能连接到ATP数据库。用于下一步。
 
-执行fetch_wallet.sh获取钱包文件。
+执行fetch_wallet.sh获取wallet文件。
 
 ```sh
 cd ..
@@ -362,21 +362,21 @@ chmod +x fetch_wallet.sh
 ./fetch_wallet.sh
 ```
 
-创建一个钱包文件“ Wallet_tfOKEATPP.zip”。
+创建一个wallet文件“ Wallet_tfOKEATPP.zip”。
 
 ```
 git add wallet.zip
 ```
 
 ```
-git commit -m “添加钱包文件”
+git commit -m “添加wallet文件”
 ```
 
 您可以使用创建的文件“ wallet.zip”连接到ATP数据库。
 
 您可以将此文件与DevCS构建功能一起使用，以引入和验证数据。我们将在下一步进行解释。
 
-ATP数据库钱包文件的获取现已完成。
+ATP数据库wallet文件的获取现已完成。
 
 接下来，继续[使用DevCS(CI / CD)的构建功能将数据引入ATP](WorkshopGuide700LoadData.md)。
 
