@@ -1,13 +1,13 @@
-使用DevCS构建功能(CI / CD)将数据引入ATP
+使用DevCS构建功能(CI/CD)将数据引入ATP
 =====
-在这一步中，我们将使用DevCS的构建功能(CI / CD)创建一些表并使用数据填充ATP。
+在这一步中，我们将使用DevCS的构建功能(CI/CD)创建一些表并使用数据填充ATP。
 
 使用DevCS构建引擎在数据库中创建所需的对象，并设置流程以将数据引入表中如果存储库中这些元素发生更改，脚本将再次触发并重新创建数据库元素。
 
 请按照以下步骤操作。
 
-1.创建并执行构建作业并创建数据库对象
-2.通过SQL Developer Web进行验证
+1. 创建并执行构建作业并创建数据库对象
+2. 通过SQL Developer Web进行验证
 
 ### 1.创建并执行构建作业并创建数据库对象
 
@@ -28,7 +28,7 @@
 
 输入以下项目。
 
-+储存库：选择您的储存库
++ 储存库：选择您的储存库
 
 添加以下步骤：点击“步骤”。
 
@@ -40,11 +40,11 @@
 
 输入以下项目，然后单击“保存”按钮。
 
-+用户名：ATP数据库用户名(例如`admin`)
-+密码：ATP数据库密码(例如，`WOrkshop__8080`)
-+凭证文件：钱包文件路径(例如`。/ Wallet.zip`)
-+连接字符串：由数据库名称和`_high` /`_low`组成的连接字符串(例如`workshopatp_high`)
-+ SQL文件路径：包含创建脚本的sql文件的路径(例如`sql / create_schema.sql`)
++ 用户名：ATP数据库用户名(例如`admin`)
++ 密码：ATP数据库密码(例如，`WOrkshop__8080`)
++ 凭证文件：钱包文件路径(例如`./Wallet.zip`)
++ 连接字符串：由数据库名称和`_high` /`_low`组成的连接字符串(例如`workshopatp_high`)
++ SQL文件路径：包含创建脚本的sql文件的路径(例如`sql/create_schema.sql`)
 
 ![](images/1350.jpg)
 
@@ -92,8 +92,8 @@ OCI ATP数据库实例的详细信息⇒单击“服务控制台”按钮。
 
 输入以下项目，然后单击“登录”。
 
-+用户名：ATP数据库用户名，例如`admin`
-+密码：ATP数据库密码，例如`WOrkshop__8080`
++ 用户名：ATP数据库用户名，例如`admin`
++ 密码：ATP数据库密码，例如`WOrkshop__8080`
 
 ![](images/1440.jpg)
 
@@ -105,6 +105,6 @@ OCI ATP数据库实例的详细信息⇒单击“服务控制台”按钮。
 
 现在，您已经成功部署并验证了数据。
 
-然后继续[使用DevCS构建功能(CI / CD)创建应用程序的Docker映像并将其注册到OCIR](WorkshopGuide800CreateImageToOCIR.md)。
+然后继续[使用DevCS构建功能(CI/CD)创建应用程序的Docker映像并将其注册到OCIR](WorkshopGuide800CreateImageToOCIR.md)。
 
 [转到工作坊顶部](../ README.md)
