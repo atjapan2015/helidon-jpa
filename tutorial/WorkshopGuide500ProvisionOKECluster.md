@@ -21,9 +21,9 @@ cd terraform_oke
 
 ### 2.编辑terraform.tfvars并输入信息，例如收集的OCID
 
-可以通过Terraform参数文件``terraform.tfvars''中描述的设置来更改OKE群集的配置。 (*在研讨会上，尽可能地设置了默认值，并减少了需要更改的参数。)
+可以通过Terraform参数文件`terraform.tfvars`中描述的设置来更改OKE群集的配置。 (*在研讨会上，尽可能地设置了默认值，并减少了需要更改的参数。*)
 
-复制基本参数文件并进行编辑。 [步骤2]使用(WorkshopGuide200GatherInformation.md)中收集的信息输入诸如OCID之类的信息。
+复制基本参数文件并进行编辑。使用[步骤2](WorkshopGuide200GatherInformation.md)中收集的信息输入诸如OCID之类的信息。
 
 ```sh
 cp terraform.tfvars.example terraform.tfvars
@@ -52,7 +52,7 @@ compartment_ocid = "ocid1.compartment.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 fingerprint = "00:11:22:33:44:55:66:77:88:99:aa:bb:cc:dd:ee:ff"
 private_key_path = "~/.oci/oci_api_key.pem"
 user_ocid = "ocid1.user.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-region = "ap-tokyo-1"
+region = "ap-seoul-1"
 ```
 
 ### 3.执行Terraform初始化，terraform计划和Terraform应用以获得OKE集群
