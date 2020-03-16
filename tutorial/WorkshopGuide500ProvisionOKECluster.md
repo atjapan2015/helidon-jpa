@@ -80,12 +80,12 @@ oci setup config
 
 按顺序填写以下信息。
 
-1.输入您的配置[/home/opc/.oci/config]的位置：`Enter`
-2.输入用户OCID：用户OCID。例如，`ocid1.user.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
-3.输入租户OCID：租户OCID。例如，`ocid1.tenancy.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
-4.输入地区：地区标识符。例如，`ap-seoul-1`
-5.您要生成一个新的RSA密钥对吗(如果拒绝，将要求您提供现有密钥的路径。)[Y / n]：`n`
-6.输入私钥文件的位置：`/home/opc/.oci/oci_api_key.pem`
+1. 输入您的配置[/home/opc/.oci/config]的位置：`Enter`
+2. 输入用户OCID：用户OCID。例如，`ocid1.user.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
+3. 输入租户OCID：租户OCID。例如，`ocid1.tenancy.oc1..xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
+4. 输入地区：地区标识符。例如，`ap-seoul-1`
+5. 您要生成一个新的RSA密钥对吗(如果拒绝，将要求您提供现有密钥的路径。)[Y / n]：`n`
+6. 输入私钥文件的位置：`/home/opc/.oci/oci_api_key.pem`
 
 
 
