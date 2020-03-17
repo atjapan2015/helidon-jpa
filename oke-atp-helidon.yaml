@@ -70,7 +70,7 @@ spec:
           mountPath: /creds        
       containers:      
       - name: oke-atp-helidon
-        image: nrt.ocir.io/sehubjapacprod/workshop/oke-atp-helidon:latest
+        image: icn.ocir.io/sehubjapacprod/workshop/oke-atp-helidon:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

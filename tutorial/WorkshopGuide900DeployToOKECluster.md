@@ -110,7 +110,7 @@ kubectl describe pods
 oke-atp-helidon                      NodePort    10.2.142.208   <none>        8080:31205/TCP   6m37s
 ```
 
-使用“ kubectl获取节点-o宽”来检查OKE集群的工作节点的公共IP(EXTERNAL-IP)。
+使用`kubectl get nodes -o wide`来检查OKE集群的工作节点的公共IP(EXTERNAL-IP)。
 
 ```
 NAME        STATUS   ROLES   AGE   VERSION   INTERNAL-IP   EXTERNAL-IP      OS-IMAGE                  KERNEL-VERSION                   CONTAINER-RUNTIME
