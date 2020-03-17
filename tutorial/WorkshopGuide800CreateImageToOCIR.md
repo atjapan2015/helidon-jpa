@@ -19,7 +19,7 @@
 输入以下项目，然后单击“创建”按钮。
 
 + 注册表名称：任意(例如`WorkshopOCIR`)
-+ 注册表URL：OCIR注册表URL。 https：// <区域代码> .ocir.io(例如，东京数据中心为`https://nrt.ocir.io`)
++ 注册表URL：OCIR注册表URL。 https：// <区域代码> .ocir.io(例如，东京数据中心为`https://nrt.ocir.io` or `https://icn.ocir.io`)
 + 简短说明：任意(例如`Workshop OCIR`)
 + 用户名：`用于登录对象存储命名空间/ OCI的用户名`(例如，`对象存储命名空间/oracleidentitycloudservice/aaaa.bbbb@oracle.com`或`对象存储命名空间/oracleidentitycloudservice/aaaa.bbbb@oracle.com`)
 + 密码：您写下的身份验证令牌
