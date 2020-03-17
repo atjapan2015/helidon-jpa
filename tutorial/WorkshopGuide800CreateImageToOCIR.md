@@ -6,29 +6,29 @@
 
 请按照以下步骤操作。
 
-1.配置与OCIR信息库的连接
-2.配置Docker构建作业以创建和推送映像
-3.执行构建作业
+1. 配置与OCIR信息库的连接
+2. 配置Docker构建作业以创建和推送映像
+3. 执行构建作业
 
 ### 1.配置与OCIR信息库的连接
 
-在DevCS中转到“ Docker”，然后单击“外部注册表链接”按钮。
+在DevCS中转到“Docker”，然后单击“外部注册表链接”按钮。
 
 ![](images/1500.jpg)
 
 输入以下项目，然后单击“创建”按钮。
 
-+注册表名称：任意(例如WorkshopOCIR)
-+注册表URL：OCIR注册表URL。 https：// <区域代码> .ocir.io(例如，东京数据中心为“ https://nrt.ocir.io”)
-+简短说明：任意(例如“ Workshop OCIR”)
-+用户名：“用于登录对象存储命名空间/ OCI的用户名”(例如，“对象存储命名空间/oracleidentitycloudservice/aaaa.bbbb@oracle.com”或“对象存储命名空间/oracleidentitycloudservice/aaaa.bbbb@oracle.com`)
-+密码：您写下的身份验证令牌
++ 注册表名称：任意(例如WorkshopOCIR)
++ 注册表URL：OCIR注册表URL。 https：// <区域代码> .ocir.io(例如，东京数据中心为“ https://nrt.ocir.io”)
++ 简短说明：任意(例如“ Workshop OCIR”)
++ 用户名：`用于登录对象存储命名空间/ OCI的用户名`(例如，`对象存储命名空间/oracleidentitycloudservice/aaaa.bbbb@oracle.com`或`对象存储命名空间/oracleidentitycloudservice/aaaa.bbbb@oracle.com`)
++ 密码：您写下的身份验证令牌
 
 ![](images/1510.jpg)
 
 如果成功，将显示来自外部注册表的信息。
 
-![image-20200306152152343740](images/1520.jpg)
+![](images/1520.jpg)
 
 ### 2.配置Docker构建作业以创建和推送映像
 
@@ -38,9 +38,9 @@
 
 输入以下项目，然后单击“创建”按钮。
 
-+名称：任意(例如，JavaDockerOCIR)
-+说明：可选(例如“构建Docker映像并推送到OCIR”)
-+模板：OKE
++ 名称：任意(例如，JavaDockerOCIR)
++ 说明：可选(例如“构建Docker映像并推送到OCIR”)
++ 模板：OKE
 
 ![](images/1540.jpg)
 
@@ -52,8 +52,8 @@
 
 添加以下步骤：点击“步骤”。
 
-+储存库：选择您的储存库
-+在SCM提交上自动运行构建：选中
++ 储存库：选择您的储存库
++ 在SCM提交上自动运行构建：选中
 
 ![](images/1560.jpg)
 
@@ -63,7 +63,7 @@
 
 输入以下项目。
 
-+注册表主机：选择输入的注册表名称。例如，WorkshopOCIR
++ 注册表主机：选择输入的注册表名称。例如，WorkshopOCIR
 
 ![image-20200306153258197](images/1610.jpg)
 
@@ -73,8 +73,8 @@
 
 输入以下项目。
 
-+注册表主机：选择输入的注册表名称(例如WorkshopOCIR)
-+图像名称：由“对象存储名称空间/选项/图像名称”组成(例如，“对象存储名称空间/工作坊/ okeatpapp”)
++ 注册表主机：选择输入的注册表名称(例如WorkshopOCIR)
++ 图像名称：由“对象存储名称空间/选项/图像名称”组成(例如，“对象存储名称空间/工作坊/ okeatpapp”)
 
 ![](images/1630.jpg)
 
@@ -84,8 +84,8 @@
 
 输入以下项目。
 
-+注册表主机：选择输入的注册表名称。例如，WorkshopOCIR
-+映像名称：由“对象存储命名空间/选项/映像名称”组成(例如，“对象存储命名空间/workshop/oke-atp-helidon”)
++ 注册表主机：选择输入的注册表名称。例如，WorkshopOCIR
++ 映像名称：由“对象存储命名空间/选项/映像名称”组成(例如，“对象存储命名空间/workshop/oke-atp-helidon”)
 
 点击“保存”按钮。
 
