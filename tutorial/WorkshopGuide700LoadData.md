@@ -42,7 +42,7 @@
 
 + 用户名：ATP数据库用户名(例如`admin`)
 + 密码：ATP数据库密码(例如，`WOrkshop__8080`)
-+ 凭证文件：钱包文件路径(例如`./Wallet.zip`)
++ 凭证文件：钱包文件路径(例如`./wallet.zip`)
 + 连接字符串：由数据库名称和`_high` /`_low`组成的连接字符串(例如`workshopatp_high`)
 + SQL文件路径：包含创建脚本的sql文件的路径(例如`sql/create_schema.sql`)
 
