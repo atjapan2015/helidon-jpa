@@ -31,8 +31,8 @@ define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojmodel', 'ojs/ojcollect
                 document.title = "Items";
                 // Implement further logic if needed
 
-                // const itemsUrl = "/workshop/items";
-                const itemsUrl = "/workshop/jpaitems";
+                const itemsUrl = "/workshop/items";
+                // const itemsUrl = "/workshop/jpaitems";
 
                 // $.getJSON(itemsUrl).then(function (data) {
                 //     let itemsArray = data;
