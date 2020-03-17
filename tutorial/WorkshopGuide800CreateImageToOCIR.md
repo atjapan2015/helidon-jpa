@@ -74,7 +74,7 @@
 输入以下项目。
 
 + 注册表主机：选择输入的注册表名称(例如WorkshopOCIR)
-+ 图像名称：由“对象存储名称空间/选项/图像名称”组成(例如，“对象存储名称空间/工作坊/ okeatpapp”)
++ 图像名称：由“对象存储名称空间/选项/图像名称”组成(例如，“对象存储名称空间/workshop/ okeatpapp”)
 
 ![](images/1630.jpg)
 
@@ -109,4 +109,4 @@
 
 接下来，继续[使用DevCS构建功能(CI / CD)将应用程序部署到OKE集群](WorkshopGuide900DeployToOKECluster.md)。
 
-[转到工作坊顶部](../ README.md)
+[转到README](../ README.md)
