@@ -75,6 +75,7 @@ kubectl config view
 kubectl get nodes
 kubectl delete secret customized-db-cred --ignore-not-found=true
 kubectl delete deployment oke-atp-helidon --ignore-not-found=true
+kubectl delete secret workshop-ocirsecret --ignore-not-found=true
 kubectl create secret docker-registry workshop-ocirsecret --docker-server=<your-registry-server> --docker-username=<your-name> --docker-password=<your-pword> --docker-email=<your-email>
 kubectl apply -f oke-atp-helidon.yaml
 kubectl get services oke-atp-helidon
